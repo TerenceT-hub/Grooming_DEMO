@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Groom Log — Records &amp; Package Tracking for Home-Based Groomers</title>
+<title>Mollie Pet</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
@@ -21,330 +21,2241 @@
     --gold:#AD8A2C;
     --gold-soft:#F1E7CD;
     --radius:3px;
+    --shadow: 0 1px 2px rgba(51,48,42,0.05);
   }
   *{box-sizing:border-box;}
-  html{scroll-behavior:smooth;}
-  @media (prefers-reduced-motion: reduce){ html{ scroll-behavior:auto; } }
+  html,body{margin:0;padding:0;}
   body{
-    margin:0;
     background:var(--paper);
     color:var(--ink);
     font-family:'Zen Kaku Gothic New', sans-serif;
-    font-size:16px;
-    line-height:1.65;
+    font-size:15px;
+    line-height:1.6;
     -webkit-font-smoothing:antialiased;
   }
-  h1,h2,h3{ font-family:'Shippori Mincho', serif; font-weight:700; margin:0; letter-spacing:.01em; }
-  p{ margin:0; }
-  a{ color:inherit; }
-  .wrap{ max-width:1040px; margin:0 auto; padding:0 24px; }
-  .eyebrow{ font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:var(--sage); font-weight:700; }
-
-  /* ---- Nav ---- */
-  nav.top{ padding:22px 0; border-bottom:1px solid var(--line); }
-  nav.top .wrap{ display:flex; align-items:center; justify-content:space-between; }
-  .brand{ display:flex; align-items:center; gap:10px; font-family:'Shippori Mincho',serif; font-weight:700; font-size:18px; }
-  .brand .mark{ width:30px;height:30px;border-radius:50%;border:1px solid var(--sage); color:var(--sage); display:flex;align-items:center;justify-content:center; font-size:14px; }
-  .nav-cta{ font-size:13px; padding:9px 18px; border-radius:999px; border:1px solid var(--ink); background:transparent; text-decoration:none; }
-  .nav-cta:hover{ background:var(--ink); color:var(--paper); }
-
-  /* ---- Hero ---- */
-  .hero{ padding:88px 0 80px; }
-  .hero .grid{ display:grid; grid-template-columns:1.05fr 0.95fr; gap:64px; align-items:center; }
-  @media(max-width:880px){ .hero .grid{ grid-template-columns:1fr; gap:56px; } }
-  .hero h1{ font-size:44px; line-height:1.18; margin:16px 0 22px; }
-  @media(max-width:520px){ .hero h1{ font-size:33px; } }
-  .hero .sub{ font-size:17px; color:var(--ink-soft); max-width:46ch; margin-bottom:32px; }
-  .btn-row{ display:flex; gap:14px; flex-wrap:wrap; align-items:center; }
-  .btn-primary{
-    display:inline-flex; align-items:center; gap:8px;
-    background:var(--ink); color:var(--paper); text-decoration:none;
-    padding:14px 26px; border-radius:999px; font-size:14.5px; font-weight:700; letter-spacing:.02em;
+  h1,h2,h3{
+    font-family:'Shippori Mincho', serif;
+    font-weight:700;
+    margin:0;
+    letter-spacing:.02em;
   }
-  .btn-primary:hover{ opacity:.86; }
-  .btn-ghost{ font-size:14px; color:var(--ink-soft); text-decoration:underline; text-underline-offset:3px; }
+  .eyebrow{
+    font-size:11px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--ink-soft);
+    font-weight:500;
+  }
+  button{font-family:inherit;cursor:pointer;}
+  input,select,textarea{font-family:inherit;font-size:15px;}
 
-  /* ---- Signature: the grooming tag ---- */
-  .tag-stage{ position:relative; display:flex; justify-content:center; }
-  .tag{
-    width:100%; max-width:340px;
-    background:var(--card); border:1px solid var(--line); border-radius:6px;
-    box-shadow:0 18px 40px rgba(51,48,42,0.14);
-    transform:rotate(-3deg);
-    padding:26px 24px 22px;
+  .topbar{
+    border-bottom:1px solid var(--line);
+    background:var(--paper);
+    position:sticky;top:0;z-index:10;
+  }
+  .topbar-inner{
+    max-width:920px;margin:0 auto;padding:22px 24px 18px;
+    display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:16px;
+  }
+  .brand-mark{display:flex;align-items:center;gap:12px;}
+  .brand-mark .stamp{
+    width:34px;height:34px;border-radius:50%;
+    border:1px solid var(--sage);
+    display:flex;align-items:center;justify-content:center;
+    color:var(--sage);font-family:'Shippori Mincho',serif;font-weight:700;font-size:15px;
+    flex-shrink:0;
+  }
+  .brand-mark h1{font-size:21px;}
+  .brand-mark .eyebrow{margin-top:2px;}
+  nav.tabs{display:flex;gap:4px;}
+  nav.tabs button{
+    background:none;border:1px solid transparent;
+    padding:8px 16px;font-size:13px;letter-spacing:.03em;color:var(--ink-soft);
+    border-radius:999px;transition:all .15s ease;
+  }
+  nav.tabs button.active{
+    background:var(--sage-soft);color:var(--sage);border-color:var(--sage-soft);font-weight:500;
+  }
+  nav.tabs button:hover:not(.active){color:var(--ink);}
+
+  main{max-width:920px;margin:0 auto;padding:32px 24px 80px;}
+
+  .card{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+  }
+
+  .config-banner{
+    background:var(--gold-soft);border:1px solid var(--gold);color:#6b5620;
+    padding:14px 18px;border-radius:var(--radius);font-size:13.5px;margin-bottom:24px;
+  }
+  .config-banner code{background:rgba(0,0,0,.06);padding:1px 5px;border-radius:2px;}
+
+  .section{padding:28px 28px;}
+  .section + .section{border-top:1px solid var(--line-soft);}
+  .section-title{display:flex;align-items:baseline;gap:10px;margin-bottom:18px;}
+  .section-title .num{font-family:'Shippori Mincho',serif;color:var(--sage);font-size:13px;}
+  .section-title h2{font-size:16px;}
+
+  .field{margin-bottom:18px;}
+  .field:last-child{margin-bottom:0;}
+  .field label{display:block;font-size:12px;color:var(--ink-soft);margin-bottom:7px;letter-spacing:.03em;}
+  .field input[type=text],.field input[type=number],.field input[type=date],.field textarea,.field select{
+    width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:var(--radius);
+    background:#fff;color:var(--ink);outline:none;transition:border-color .15s;
+  }
+  .field input:focus,.field textarea:focus,.field select:focus{border-color:var(--sage);}
+  .field textarea{resize:vertical;min-height:56px;}
+  .row{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  .row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;}
+  @media(max-width:640px){.row,.row3{grid-template-columns:1fr;}}
+
+  .pill-group{display:flex;flex-wrap:wrap;gap:8px;}
+  .pill{
+    border:1px solid var(--line);background:#fff;color:var(--ink-soft);
+    padding:7px 14px;border-radius:999px;font-size:13px;display:flex;align-items:center;gap:7px;
+    transition:all .12s ease;
+  }
+  .pill .dot{width:6px;height:6px;border-radius:50%;background:var(--ink-soft);flex-shrink:0;}
+  .pill:hover{border-color:var(--ink-soft);}
+  .pill.selected{border-color:currentColor;font-weight:500;}
+  .pill.selected.ok{color:var(--sage);background:var(--sage-soft);}
+  .pill.selected.ok .dot{background:var(--sage);}
+  .pill.selected.warn{color:var(--clay);background:var(--clay-soft);}
+  .pill.selected.warn .dot{background:var(--clay);}
+  .pill.selected.neutral{color:var(--ink);background:var(--line-soft);}
+  .pill.selected.neutral .dot{background:var(--ink);}
+
+  .assess-note{margin-top:10px;}
+  .assess-note input{font-size:13px;padding:8px 11px;}
+
+  .shampoo-option{
+    border:1px solid var(--line);border-radius:var(--radius);padding:12px 14px;margin-bottom:8px;
+    cursor:pointer;transition:all .12s ease;
+  }
+  .shampoo-option:hover{border-color:var(--sage);}
+  .shampoo-option.selected{border-color:var(--sage);background:var(--sage-soft);}
+  .shampoo-option .name{font-size:13.5px;font-weight:500;}
+  .shampoo-option .desc{font-size:12px;color:var(--ink-soft);margin-top:2px;}
+
+  .btn{
+    display:inline-flex;align-items:center;gap:8px;
+    padding:11px 22px;border-radius:999px;border:1px solid var(--ink);
+    background:var(--ink);color:var(--paper);font-size:13.5px;letter-spacing:.03em;font-weight:500;
+    transition:opacity .15s;
+  }
+  .btn:hover{opacity:.85;}
+  .btn.secondary{background:transparent;color:var(--ink);border-color:var(--line);}
+  .btn.danger{background:transparent;color:var(--clay);border-color:var(--clay-soft);}
+  .btn.danger:hover{background:var(--clay-soft);}
+  .form-actions{display:flex;justify-content:space-between;align-items:center;padding:22px 28px;border-top:1px solid var(--line);gap:12px;flex-wrap:wrap;}
+
+  .list-toolbar{display:flex;gap:12px;margin-bottom:20px;flex-wrap:wrap;align-items:center;justify-content:space-between;}
+  .search-box{position:relative;flex:1;min-width:220px;}
+  .search-box input{width:100%;padding:10px 14px;border:1px solid var(--line);border-radius:999px;background:#fff;outline:none;}
+  .search-box input:focus{border-color:var(--sage);}
+
+  .record-tag{
+    display:flex;align-items:center;gap:16px;padding:16px 20px;border:1px solid var(--line);
+    border-radius:var(--radius);background:#fff;margin-bottom:10px;cursor:pointer;transition:border-color .12s;
+  }
+  .record-tag:hover{border-color:var(--sage);}
+  .record-tag .punch{width:10px;height:10px;border-radius:50%;background:var(--paper);border:1px solid var(--line);flex-shrink:0;}
+  .record-tag .info{flex:1;min-width:0;}
+  .record-tag .dog{font-weight:500;font-size:14.5px;}
+  .record-tag .meta{font-size:12.5px;color:var(--ink-soft);margin-top:2px;}
+  .record-tag .date{font-size:12px;color:var(--ink-soft);text-align:right;white-space:nowrap;}
+  .record-tag .flags{display:flex;gap:5px;flex-shrink:0;}
+  .record-tag .flags .dot{width:7px;height:7px;border-radius:50%;}
+
+  .empty-state{text-align:center;padding:64px 24px;color:var(--ink-soft);}
+  .empty-state .stamp{
+    width:48px;height:48px;border-radius:50%;border:1px solid var(--line);margin:0 auto 16px;
+    display:flex;align-items:center;justify-content:center;color:var(--line);font-size:20px;
+  }
+
+  .detail-header{display:flex;justify-content:space-between;align-items:flex-start;padding:26px 28px;border-bottom:1px solid var(--line);gap:16px;flex-wrap:wrap;}
+  .detail-header h2{font-size:22px;}
+  .detail-header .sub{color:var(--ink-soft);font-size:13px;margin-top:4px;}
+  .detail-actions{display:flex;gap:8px;}
+  .detail-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:2px 24px;padding:22px 28px;}
+  @media(max-width:640px){.detail-grid{grid-template-columns:1fr;}}
+  .detail-item{padding:10px 0;border-bottom:1px solid var(--line-soft);}
+  .detail-item label{display:block;font-size:11px;color:var(--ink-soft);letter-spacing:.04em;text-transform:uppercase;margin-bottom:4px;}
+  .detail-item .val{font-size:14px;}
+  .detail-item .val.empty{color:var(--ink-soft);font-style:italic;}
+  .tag-chip{display:inline-flex;align-items:center;gap:6px;font-size:13px;}
+  .tag-chip .dot{width:6px;height:6px;border-radius:50%;}
+
+  .loading{text-align:center;padding:60px;color:var(--ink-soft);font-size:13px;}
+  .toast{
+    position:fixed;bottom:24px;left:50%;transform:translateX(-50%);
+    background:var(--ink);color:var(--paper);padding:12px 22px;border-radius:999px;
+    font-size:13px;box-shadow:0 4px 16px rgba(0,0,0,.18);z-index:100;opacity:0;transition:opacity .2s,transform .2s;
+    pointer-events:none;
+  }
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(-6px);}
+
+  .brand-mark img.logo{width:68px;height:68px;border-radius:50%;object-fit:cover;flex-shrink:0;}
+
+  .revenue-summary{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;padding:0;margin-bottom:24px;overflow:hidden;border-radius:var(--radius);border:1px solid var(--line);}
+  .revenue-summary.cols-4{grid-template-columns:repeat(4,1fr);}
+  @media(max-width:640px){.revenue-summary{grid-template-columns:1fr;}.revenue-summary.cols-4{grid-template-columns:repeat(2,1fr);}}
+  .revenue-summary .stat{background:#fff;padding:22px 24px;}
+  .revenue-summary .stat + .stat{border-left:1px solid var(--line);}
+  @media(max-width:640px){.revenue-summary .stat + .stat{border-left:none;border-top:1px solid var(--line);}}
+  .revenue-summary .stat .eyebrow{margin-bottom:8px;}
+  .revenue-summary .stat .num{font-family:'Shippori Mincho',serif;font-size:26px;}
+  .month-row{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border:1px solid var(--line);border-radius:var(--radius);background:#fff;margin-bottom:10px;}
+  .month-row .m-label{font-weight:500;font-size:14.5px;}
+  .month-row .m-meta{font-size:12.5px;color:var(--ink-soft);margin-top:2px;}
+  .month-row .m-total{font-family:'Shippori Mincho',serif;font-size:17px;color:var(--sage);}
+
+  .revenue-summary .stat .num.clay {
+    color: var(--clay);
+  }
+  
+  .trend-chart-container {
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:20px;
+    overflow-x:auto;
+    margin-bottom:24px;
+  }
+  
+  .trend-chart {
+    display:flex;
+    align-items:flex-end;
+    gap:8px;
+    min-height:200px;
+    padding-bottom:30px;
     position:relative;
   }
-  .tag::before{
-    content:''; position:absolute; top:-34px; left:50%; margin-left:-1px;
-    width:2px; height:38px; background:var(--ink-soft); opacity:.5;
+  
+  .trend-chart .bar-wrapper {
+    flex:1;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:4px;
+    min-width:40px;
   }
-  .tag .hole{
-    position:absolute; top:14px; left:50%; margin-left:-9px;
-    width:18px; height:18px; border-radius:50%;
-    background:var(--paper); border:2px solid var(--line);
+  
+  .trend-chart .bar-stack {
+    width:100%;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:2px;
   }
-  .tag .tag-top{ margin-top:14px; display:flex; justify-content:space-between; align-items:baseline; }
-  .tag .dog-name{ font-family:'Shippori Mincho',serif; font-size:22px; font-weight:700; }
-  .tag .owner-name{ font-size:12.5px; color:var(--ink-soft); }
-  .tag .flags{ display:flex; flex-wrap:wrap; gap:6px; margin:14px 0 16px; }
-  .tag .flag{ font-size:10.5px; padding:4px 9px; border-radius:999px; background:var(--sage-soft); color:var(--sage); display:flex; align-items:center; gap:5px; }
-  .tag .flag.warn{ background:var(--clay-soft); color:var(--clay); }
-  .tag .flag .dot{ width:5px;height:5px;border-radius:50%; background:currentColor; }
-  .tag .divider{ border-top:1px dashed var(--line); margin:14px 0; }
-  .tag .ledger-label{ font-size:10px; text-transform:uppercase; letter-spacing:.08em; color:var(--ink-soft); margin-bottom:8px; }
-  .tag .ledger-row{ display:flex; justify-content:space-between; font-size:12.5px; padding:5px 0; }
-  .tag .ledger-row .amt.up{ color:var(--sage); font-weight:700; }
-  .tag .ledger-row .amt.down{ color:var(--clay); }
-  .tag .balance{ display:flex; justify-content:space-between; align-items:baseline; margin-top:10px; padding-top:10px; border-top:1px solid var(--line); }
-  .tag .balance .num{ font-family:'Shippori Mincho',serif; font-size:20px; color:var(--sage); }
-
-  /* ---- Sections ---- */
-  section{ padding:76px 0; }
-  section.alt{ background:var(--card); border-top:1px solid var(--line); border-bottom:1px solid var(--line); }
-  .section-head{ max-width:640px; margin-bottom:44px; }
-  .section-head h2{ font-size:30px; margin-top:12px; }
-
-  /* Problem list */
-  .problem-list{ display:flex; flex-direction:column; }
-  .problem-item{ display:flex; gap:20px; padding:22px 0; border-top:1px solid var(--line); font-size:16px; color:var(--ink); }
-  .problem-item:last-child{ border-bottom:1px solid var(--line); }
-  .problem-item .q{ font-family:'Shippori Mincho',serif; color:var(--clay); font-size:18px; flex-shrink:0; }
-
-  /* Feature rows */
-  .feature-row{ display:grid; grid-template-columns:1fr 1fr; gap:56px; align-items:center; padding:48px 0; border-top:1px solid var(--line); }
-  .feature-row:last-child{ border-bottom:1px solid var(--line); }
-  .feature-row.reverse .f-visual{ order:2; }
-  @media(max-width:820px){ .feature-row, .feature-row.reverse .f-visual{ grid-template-columns:1fr; order:0; } .feature-row{ grid-template-columns:1fr; } }
-  .feature-row h3{ font-size:22px; margin-bottom:12px; }
-  .feature-row p{ color:var(--ink-soft); font-size:15.5px; max-width:42ch; }
-  .f-visual{ background:var(--paper); border:1px solid var(--line); border-radius:var(--radius); padding:20px; }
-  .mini-row{ display:flex; justify-content:space-between; font-size:12.5px; padding:7px 0; border-bottom:1px solid var(--line-soft); }
-  .mini-row:last-child{ border-bottom:none; }
-  .mini-pill{ font-size:10.5px; padding:3px 9px; border-radius:999px; background:var(--sage-soft); color:var(--sage); margin:2px 4px 2px 0; display:inline-block; }
-  .mini-pill.warn{ background:var(--clay-soft); color:var(--clay); }
-  .mini-table-head{ font-size:10px; text-transform:uppercase; letter-spacing:.06em; color:var(--ink-soft); margin-bottom:6px; }
-
-  /* Outcomes */
-  .outcomes{ display:grid; grid-template-columns:repeat(2,1fr); gap:2px; border:1px solid var(--line); border-radius:var(--radius); overflow:hidden; background:var(--line); }
-  @media(max-width:700px){ .outcomes{ grid-template-columns:1fr; } }
-  .outcome{ background:var(--card); padding:28px 26px; }
-  .outcome p{ font-size:15px; color:var(--ink); }
-
-  /* Trust strip */
-  .trust{ display:flex; flex-wrap:wrap; gap:32px 48px; }
-  .trust-item{ max-width:220px; }
-  .trust-item .label{ font-family:'Shippori Mincho',serif; font-size:16px; margin-bottom:6px; }
-  .trust-item p{ font-size:13.5px; color:var(--ink-soft); }
-
-  /* Final CTA */
-  .final-cta{ text-align:center; padding:90px 0 100px; }
-  .final-cta h2{ font-size:32px; max-width:20ch; margin:14px auto 30px; }
-
-  footer{ border-top:1px solid var(--line); padding:32px 0; font-size:12.5px; color:var(--ink-soft); }
-  footer .wrap{ display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px; }
-
-  /* ---- WhatsApp contact ---- */
-  .wa-float{
-    position:fixed; right:22px; bottom:22px; z-index:50;
-    display:flex; align-items:center; gap:9px;
-    background:#25D366; color:#fff; text-decoration:none;
-    padding:13px 20px 13px 16px; border-radius:999px;
-    box-shadow:0 8px 24px rgba(37,211,102,0.35);
-    font-size:14px; font-weight:700;
+  
+  .trend-chart .bar-discount {
+    width:24px;
+    background:var(--clay-soft);
+    border-radius:2px 2px 0 0;
+    opacity:0.7;
+    transition:height 0.3s ease;
   }
-  .wa-float:hover{ opacity:.92; }
-  .wa-float svg{ width:20px; height:20px; flex-shrink:0; }
-  .contact-section{ text-align:center; }
-  .contact-section .qr-box{
-    display:inline-flex; flex-direction:column; align-items:center; gap:14px;
-    background:var(--card); border:1px solid var(--line); border-radius:var(--radius);
-    padding:28px 36px; margin-top:28px;
+  
+  .trend-chart .bar-revenue {
+    width:24px;
+    background:var(--sage);
+    border-radius:2px 2px 0 0;
+    position:relative;
+    transition:height 0.3s ease;
   }
-  .contact-section .qr-box img{ width:150px; height:150px; border-radius:4px; }
-  .contact-section .qr-box .num{ font-family:'Shippori Mincho',serif; font-size:16px; }
+  
+  .trend-chart .bar-revenue.small {
+    width:32px;
+    background:var(--sage-soft);
+  }
+  
+  .trend-chart .bar-value {
+    position:absolute;
+    top:-20px;
+    left:50%;
+    transform:translateX(-50%);
+    font-size:10px;
+    color:var(--ink-soft);
+    white-space:nowrap;
+  }
+  
+  .trend-chart .bar-label {
+    font-size:10px;
+    color:var(--ink-soft);
+    text-align:center;
+    margin-top:4px;
+  }
+  
+  .trend-chart .bar-count {
+    font-size:9px;
+    color:var(--ink-soft);
+  }
+  
+  .trend-chart .bar-discount-label {
+    font-size:8px;
+    color:var(--clay);
+  }
+  
+  .trend-legend {
+    display:flex;
+    gap:16px;
+    justify-content:center;
+    font-size:11px;
+    color:var(--ink-soft);
+    border-top:1px solid var(--line-soft);
+    padding-top:12px;
+    margin-top:8px;
+  }
+  
+  .trend-legend .legend-item {
+    display:flex;
+    align-items:center;
+    gap:4px;
+  }
+  
+  .trend-legend .legend-color {
+    display:inline-block;
+    width:12px;
+    height:12px;
+    border-radius:2px;
+    vertical-align:middle;
+  }
+  
+  .trend-legend .legend-color.sage {
+    background:var(--sage);
+  }
+  
+  .trend-legend .legend-color.clay {
+    background:var(--clay-soft);
+  }
+  
+  .daily-grid {
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+    margin-bottom:24px;
+  }
+  
+  @media(max-width:640px) {
+    .daily-grid {
+      grid-template-columns:1fr;
+    }
+  }
+  
+  .daily-card {
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:14px 16px;
+  }
+  
+  .daily-card .date-label {
+    font-weight:500;
+    font-size:13px;
+    margin-bottom:4px;
+  }
+  
+  .daily-card .revenue-row {
+    display:flex;
+    justify-content:space-between;
+    font-size:13px;
+  }
+  
+  .daily-card .discount-row {
+    display:flex;
+    justify-content:space-between;
+    font-size:12px;
+    color:var(--clay);
+    margin-top:2px;
+  }
+  
+  .daily-card .no-discount {
+    font-size:11px;
+    color:var(--ink-soft);
+    margin-top:2px;
+  }
+  
+  .daily-card .dog-list {
+    margin-top:6px;
+    font-size:11px;
+    color:var(--ink-soft);
+  }
+  
+  .section-header {
+    font-family:'Shippori Mincho',serif;
+    font-size:16px;
+    margin-bottom:12px;
+  }
+
+  /* Photo upload styles */
+  .photo-upload-area {
+    border:2px dashed var(--line);
+    border-radius:var(--radius);
+    padding:20px;
+    text-align:center;
+    cursor:pointer;
+    transition:all .15s;
+    background:#fafaf8;
+  }
+  .photo-upload-area:hover {
+    border-color:var(--sage);
+    background:var(--sage-soft);
+  }
+  .photo-upload-area.dragover {
+    border-color:var(--sage);
+    background:var(--sage-soft);
+  }
+  .photo-upload-area.uploading {
+    opacity:0.6;
+    pointer-events:none;
+  }
+  .photo-upload-area .upload-progress {
+    display:none;
+    margin-top:8px;
+    font-size:13px;
+    color:var(--sage);
+  }
+  .photo-upload-area.uploading .upload-progress {
+    display:block;
+  }
+
+.photo-thumbnail {
+  position:relative;
+  width:120px;
+  height:120px;
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  overflow:hidden;
+  background: #f0f0f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.photo-thumbnail img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  cursor: pointer;
+}
+  .photo-thumbnail .remove-btn {
+    position:absolute;
+    top:4px;
+    right:4px;
+    background:var(--clay);
+    color:#fff;
+    border:none;
+    border-radius:50%;
+    width:24px;
+    height:24px;
+    font-size:14px;
+    cursor:pointer;
+    line-height:1;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .photo-thumbnail .photo-number {
+    position:absolute;
+    bottom:4px;
+    right:4px;
+    background:rgba(0,0,0,0.6);
+    color:#fff;
+    font-size:10px;
+    padding:2px 6px;
+    border-radius:10px;
+  }
+
+  #printArea{display:none;}
+  @media print{
+    body > *:not(#printArea){display:none !important;}
+    #printArea{display:block !important;}
+    .toast{display:none !important;}
+  }
+  .print-doc{max-width:680px;margin:0 auto;font-family:'Zen Kaku Gothic New',sans-serif;color:#222;padding:20px;}
+  .print-doc .p-head{display:flex;align-items:center;gap:14px;border-bottom:2px solid #222;padding-bottom:16px;margin-bottom:20px;}
+  .print-doc .p-head img{width:88px;height:88px;border-radius:50%;object-fit:cover;}
+  .print-doc .p-head .biz{font-family:'Shippori Mincho',serif;font-size:19px;font-weight:700;}
+  .print-doc .p-head .doc-title{margin-left:auto;text-align:right;font-size:12px;color:#666;}
+  .print-doc h3{font-family:'Shippori Mincho',serif;font-size:14px;border-bottom:1px solid #ddd;padding-bottom:6px;margin:20px 0 10px;}
+  .print-doc .p-grid{display:grid;grid-template-columns:1fr 1fr;gap:4px 20px;font-size:13px;margin-bottom:6px;}
+  .print-doc .p-grid div span.k{color:#777;display:block;font-size:10.5px;text-transform:uppercase;letter-spacing:.04em;}
+  .print-doc .p-charge{display:flex;justify-content:space-between;border-top:2px solid #222;margin-top:16px;padding-top:12px;font-size:16px;font-weight:700;}
+  .print-doc .p-footer{margin-top:28px;font-size:11.5px;color:#888;text-align:center;}
 </style>
 </head>
 <body>
 
-<a class="wa-float" href="https://wa.me/60126739328?text=Hi!%20I%20saw%20the%20Groom%20Log%20demo%20and%20I%27d%20like%20to%20know%20more%20about%20getting%20one%20built%20for%20my%20business." target="_blank" rel="noopener">
-  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12c0 1.85.5 3.58 1.36 5.07L2 22l5.07-1.33C8.5 21.5 10.2 22 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2zm5.2 14.2c-.22.62-1.28 1.2-1.76 1.24-.45.05-1 .07-1.62-.1-.37-.1-.85-.27-1.46-.53-2.57-1.1-4.25-3.7-4.38-3.87-.13-.17-1.04-1.38-1.04-2.63 0-1.25.66-1.87.9-2.12.22-.25.5-.3.66-.3.17 0 .33 0 .48.01.15.01.36-.06.56.43.22.53.73 1.83.79 1.96.06.13.1.29.02.46-.08.17-.13.28-.25.43-.13.15-.27.34-.38.46-.13.13-.26.27-.11.53.15.26.66 1.09 1.42 1.77.98.87 1.8 1.14 2.06 1.27.26.13.41.11.56-.07.15-.17.63-.73.8-.98.17-.26.34-.21.56-.13.22.08 1.43.68 1.68.8.25.13.41.19.47.3.06.11.06.63-.16 1.25z"/></svg>
-  WhatsApp Me
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="brand-mark" id="brandMark">
+      <div class="stamp">🐾</div>
+      <div>
+        <h1>Mollie Pet</h1>
+        <div class="eyebrow">Customer &amp; care records — Live Demo, nothing here is saved</div>
+      </div>
+    </div>
+    <nav class="tabs">
+      <button data-tab="list" class="active">All Records</button>
+      <button data-tab="form">New Record</button>
+      <button data-tab="revenue">Revenue</button>
+    </nav>
+  </div>
+</div>
+
+<main id="app"></main>
+
+<div class="toast" id="toast"></div>
+<div id="printArea"></div>
+
+<a href="https://wa.me/60126739328?text=Hi!%20I%20tried%20the%20Groom%20Log%20demo%20and%20I%27d%20like%20to%20know%20more%20about%20getting%20one%20built%20for%20my%20business." target="_blank" rel="noopener"
+   style="position:fixed;right:20px;bottom:20px;z-index:200;display:flex;align-items:center;gap:8px;background:#25D366;color:#fff;text-decoration:none;padding:12px 18px 12px 14px;border-radius:999px;box-shadow:0 8px 24px rgba(37,211,102,0.35);font-family:'Zen Kaku Gothic New',sans-serif;font-size:13.5px;font-weight:700;">
+  <svg viewBox="0 0 24 24" fill="currentColor" style="width:18px;height:18px;flex-shrink:0;"><path d="M12 2C6.48 2 2 6.48 2 12c0 1.85.5 3.58 1.36 5.07L2 22l5.07-1.33C8.5 21.5 10.2 22 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2zm5.2 14.2c-.22.62-1.28 1.2-1.76 1.24-.45.05-1 .07-1.62-.1-.37-.1-.85-.27-1.46-.53-2.57-1.1-4.25-3.7-4.38-3.87-.13-.17-1.04-1.38-1.04-2.63 0-1.25.66-1.87.9-2.12.22-.25.5-.3.66-.3.17 0 .33 0 .48.01.15.01.36-.06.56.43.22.53.73 1.83.79 1.96.06.13.1.29.02.46-.08.17-.13.28-.25.43-.13.15-.27.34-.38.46-.13.13-.26.27-.11.53.15.26.66 1.09 1.42 1.77.98.87 1.8 1.14 2.06 1.27.26.13.41.11.56-.07.15-.17.63-.73.8-.98.17-.26.34-.21.56-.13.22.08 1.43.68 1.68.8.25.13.41.19.47.3.06.11.06.63-.16 1.25z"/></svg>
+  Interested? Chat with me
 </a>
 
-<nav class="top">
-  <div class="wrap">
-    <div class="brand"><span class="mark">犬</span> Groom Log</div>
-    <a class="nav-cta" href="demo.html">Try the demo</a>
-  </div>
-</nav>
+<script>
+/* ======================= CONFIGURATION ======================= */
+const APPS_SCRIPT_URL = ""; // not used in demo mode — everything runs in-memory
 
-<header class="hero">
-  <div class="wrap grid">
-    <div>
-      <div class="eyebrow">Built for home-based groomers</div>
-      <h1>Every groom, every dog, every dollar — actually tracked.</h1>
-      <p class="sub">A record-keeping and package-balance tool made for a one-person grooming business — not a $50-a-month booking platform stuffed with features you'll never touch.</p>
-      <div class="btn-row">
-        <a class="btn-primary" href="demo.html">Try the live demo →</a>
-        <a class="btn-ghost" href="#features">See what's inside</a>
+const BUSINESS_NAME = "Groom Log Demo";
+const LOGO_URL = "";
+const DEMO_MODE = true;
+/* ================================================================ */
+
+const PRE_ASSESSMENT = [
+  { key:'Eyes', label:'Eyes', options:[['Normal','ok'],['Redness','warn'],['Discharge','warn'],['Other','neutral']] },
+  { key:'Ears', label:'Ears', options:[['Clean','ok'],['Dirty','warn'],['Odor','warn'],['Infection','warn'],['Other','neutral']] },
+  { key:'Oral', label:'Oral', options:[['Normal','ok'],['Bad Breath','warn'],['Inflamed','warn'],['Bleeding','warn'],['Plaque/Tartar','warn'],['Other','neutral']] },
+  { key:'Anal', label:'Anal', options:[['Normal','ok'],['Redness/Irritation','warn'],['Discharge','warn'],['Other','neutral']] },
+  { key:'Nail', label:'Nail', options:[['Normal','ok'],['Overgrown','warn'],['Ingrown','warn'],['Broken','warn'],['Infected','warn'],['Other','neutral']] },
+  { key:'Skin', label:'Skin', options:[['None','ok'],['Redness/Irritation','warn'],['Infection','warn'],['Dandruff','warn'],['Oily','warn'],['Flea/Ticks','warn'],['Other','neutral']] },
+  { key:'Coat', label:'Coat', options:[['Normal','ok'],['Thin','warn'],['Matting','warn'],['Excessive Shedding','warn'],['Other','neutral']] },
+];
+const MATS = { key:'Mats', label:'Mats', options:[['None','ok'],['Mild','warn'],['Moderate','warn'],['Severe','warn']] };
+const SERVICE = { key:'Service Required', label:'Service Required', options:[['Full Grooming','neutral'],['Basic Grooming','neutral'],['Bath & Fluff','neutral'],['Other','neutral']] };
+const TEMPERAMENT = { key:'Temperament', label:'Temperament & Behavior During Grooming', options:[['Calm','ok'],['Playful','ok'],['Wriggly','warn'],['Anxious/Whining','warn'],['Nervous','warn'],['Aggressive','warn'],['Other','neutral']] };
+const GENDER = { key:'Gender', label:'Gender', options:[['Male','neutral'],['Female','neutral'],['Male (Neutered)','neutral'],['Female (Spayed)','neutral']] };
+const PET_TYPE = { key:'Pet Type', label:'Pet Type', options:[['Dog','neutral'],['Cat','neutral']] };
+
+const SHAMPOOS = [
+  { name:'All-Purpose Shampoo', desc:'Everyday cleaning with a healthy shine' },
+  { name:'Hypoallergenic / Sensitive Skin Shampoo', desc:'Gentle formula for sensitive or reactive skin' },
+  { name:'Whitening Shampoo', desc:'Brightens white and light-coloured coats' },
+  { name:'Deshedding Shampoo', desc:'Loosens and reduces excess shedding' },
+  { name:'Medicated / Anti-Fungal Shampoo', desc:'For skin infections or fungal conditions' },
+  { name:'Kitten / Puppy-Safe Shampoo', desc:'Extra-gentle formula for young pets' },
+  { name:'Own Product Provided', desc:'Client supplied their own shampoo/product' },
+  { name:'Other', desc:'' },
+];
+
+/* ======================= DEMO SAMPLE DATA ======================= */
+// Everything below lives only in the browser's memory for this session —
+// nothing is saved anywhere, and refreshing the page resets it back to this.
+let demoRecords = [
+  { 'Record ID':'demo-1', 'Pet Name':'Mochi', 'Owner Name':'Sarah Tan', 'Date of Grooming':'2026-08-05', 'Time of Grooming':'10:00',
+    'Pet Type':'Dog', 'Breed':'Poodle', 'Gender':'Female', 'Weight (kg)':'6.5',
+    'Eyes':'Normal','Ears':'Clean','Oral':'Normal','Anal':'Normal','Nail':'Overgrown','Nail Notes':'Trimmed back to a comfortable length',
+    'Skin':'None','Coat':'Normal','Mats':'None',
+    'Service Required':'Full Grooming','Temperament':'Calm, Playful','Style Notes':'Teddy bear face trim, short body 4mm',
+    'Shampoo Used':'Hypoallergenic / Sensitive Skin Shampoo','Additional Notes':'Loves belly rubs, very easy groom.',
+    'Base Price (SGD)':'80','Discount (%)':'','Charges (SGD)':'80','Has Package':'No',
+    'Photos':'https://placedog.net/500/500?id=10,https://placedog.net/500/500?id=22' },
+
+  { 'Record ID':'demo-2', 'Pet Name':'Bruno', 'Owner Name':'Sarah Tan', 'Date of Grooming':'2026-08-12', 'Time of Grooming':'14:30',
+    'Pet Type':'Dog', 'Breed':'Shih Tzu', 'Gender':'Male (Neutered)', 'Weight (kg)':'7.2',
+    'Eyes':'Redness','Eyes Notes':'Slight tear staining, monitor next visit','Ears':'Dirty','Ears Notes':'Cleaned thoroughly',
+    'Oral':'Plaque/Tartar','Anal':'Normal','Nail':'Normal','Skin':'None','Coat':'Matting','Coat Notes':'Mild matting behind the ears','Mats':'Mild',
+    'Service Required':'Full Grooming','Temperament':'Anxious/Whining','Temperament Notes':'Settled after the first 10 minutes',
+    'Style Notes':'Puppy cut, 6mm all over','Shampoo Used':'Medicated / Anti-Fungal Shampoo',
+    'Base Price (SGD)':'75','Discount (%)':'','Charges (SGD)':'75','Has Package':'No' },
+
+  { 'Record ID':'demo-3', 'Pet Name':'Coco', 'Owner Name':'Alex Lee', 'Date of Grooming':'2026-08-01', 'Time of Grooming':'09:15',
+    'Pet Type':'Dog', 'Breed':'Maltese', 'Gender':'Female (Spayed)', 'Weight (kg)':'3.8',
+    'Eyes':'Normal','Ears':'Clean','Oral':'Normal','Anal':'Normal','Nail':'Normal','Skin':'None','Coat':'Normal','Mats':'None',
+    'Service Required':'Bath & Fluff','Temperament':'Calm','Style Notes':'Just a wash and blow-dry, keep coat long',
+    'Shampoo Used':'Whitening Shampoo',
+    'Base Price (SGD)':'500','Discount (%)':'','Charges (SGD)':'0','Has Package':'Yes','Package Type':'5-Session Package',
+    'Package Balance':'500','Package Top Up (SGD)':'500' },
+
+  { 'Record ID':'demo-4', 'Pet Name':'Coco', 'Owner Name':'Alex Lee', 'Date of Grooming':'2026-08-09', 'Time of Grooming':'09:30',
+    'Pet Type':'Dog', 'Breed':'Maltese', 'Gender':'Female (Spayed)', 'Weight (kg)':'3.8',
+    'Eyes':'Normal','Ears':'Clean','Oral':'Normal','Anal':'Normal','Nail':'Normal','Skin':'None','Coat':'Normal','Mats':'None',
+    'Service Required':'Bath & Fluff','Temperament':'Calm','Style Notes':'Same as usual',
+    'Shampoo Used':'Whitening Shampoo',
+    'Base Price (SGD)':'80','Discount (%)':'','Charges (SGD)':'80','Has Package':'Yes','Package Type':'5-Session Package','Package Balance':'420' },
+
+  { 'Record ID':'demo-5', 'Pet Name':'Milo', 'Owner Name':'Alex Lee', 'Date of Grooming':'2026-08-16', 'Time of Grooming':'11:00',
+    'Pet Type':'Dog', 'Breed':'Toy Poodle', 'Gender':'Male', 'Weight (kg)':'4.1',
+    'Eyes':'Normal','Ears':'Odor','Ears Notes':'Slight yeasty smell, recommend vet check if it continues','Oral':'Normal','Anal':'Normal',
+    'Nail':'Normal','Skin':'None','Coat':'Normal','Mats':'None',
+    'Service Required':'Full Grooming','Temperament':'Playful','Style Notes':'Teddy bear trim',
+    'Shampoo Used':'All-Purpose Shampoo',
+    'Base Price (SGD)':'90','Discount (%)':'','Charges (SGD)':'90','Has Package':'Yes','Package Type':'5-Session Package','Package Balance':'330' },
+
+  { 'Record ID':'demo-6', 'Pet Name':'Rocky', 'Owner Name':'Wei Ming', 'Date of Grooming':'2026-08-14', 'Time of Grooming':'16:00',
+    'Pet Type':'Dog', 'Breed':'Schnauzer', 'Gender':'Male (Neutered)', 'Weight (kg)':'9.0',
+    'Eyes':'Normal','Ears':'Clean','Oral':'Bad Breath','Anal':'Redness/Irritation','Anal Notes':'Mild, expressed glands',
+    'Nail':'Overgrown','Skin':'Redness/Irritation','Skin Notes':'Slight irritation on belly, used gentle shampoo',
+    'Coat':'Excessive Shedding','Mats':'Moderate',
+    'Service Required':'Full Grooming, Bath & Fluff','Temperament':'Nervous, Wriggly','Style Notes':'Schnauzer cut, standard length',
+    'Shampoo Used':'All-Purpose Shampoo','Additional Notes':'First visit — a bit nervous, took extra time to settle him.',
+    'Base Price (SGD)':'100','Discount (%)':'10','Charges (SGD)':'90','Has Package':'No' },
+
+  { 'Record ID':'demo-7', 'Pet Name':'Bella', 'Owner Name':'Wei Ming', 'Date of Grooming':'2026-08-20', 'Time of Grooming':'13:00',
+    'Pet Type':'Dog', 'Breed':'Bichon Frise', 'Gender':'Female (Spayed)', 'Weight (kg)':'5.5',
+    'Eyes':'Discharge','Eyes Notes':'Some discharge, cleaned and monitored','Ears':'Clean','Oral':'Normal','Anal':'Normal',
+    'Nail':'Normal','Skin':'None','Coat':'Normal','Mats':'None',
+    'Service Required':'Full Grooming','Temperament':'Calm','Style Notes':'Round fluffy face, full body trim',
+    'Shampoo Used':'Deshedding Shampoo',
+    'Base Price (SGD)':'85','Discount (%)':'','Charges (SGD)':'85','Has Package':'No' },
+
+  { 'Record ID':'demo-8', 'Pet Name':'Whiskers', 'Owner Name':'Alex Lee', 'Date of Grooming':'2026-08-18', 'Time of Grooming':'15:30',
+    'Pet Type':'Cat', 'Breed':'British Shorthair', 'Gender':'Male (Neutered)', 'Weight (kg)':'4.5',
+    'Eyes':'Normal','Ears':'Clean','Oral':'Normal','Anal':'Normal','Nail':'Overgrown','Nail Notes':'Trimmed all four paws',
+    'Skin':'None','Coat':'Matting','Coat Notes':'Mild matting near the hind legs','Mats':'Mild',
+    'Service Required':'Bath & Fluff','Temperament':'Nervous','Temperament Notes':'First groom, kept sessions short and calm',
+    'Shampoo Used':'Kitten / Puppy-Safe Shampoo','Additional Notes':'Not a fan of the dryer — used a lower setting.',
+    'Base Price (SGD)':'90','Discount (%)':'','Charges (SGD)':'90','Has Package':'Yes','Package Type':'5-Session Package','Package Balance':'240' },
+
+  { 'Record ID':'demo-9', 'Pet Name':'Simba', 'Owner Name':'Priya Nair', 'Date of Grooming':'2026-08-21', 'Time of Grooming':'12:00',
+    'Pet Type':'Cat', 'Breed':'Persian', 'Gender':'Male', 'Weight (kg)':'5.0',
+    'Eyes':'Discharge','Eyes Notes':'Common for the breed, cleaned gently','Ears':'Clean','Oral':'Normal','Anal':'Normal',
+    'Nail':'Overgrown','Nail Notes':'Trimmed and filed','Skin':'None','Coat':'Matting','Coat Notes':'Moderate matting under the arms','Mats':'Moderate',
+    'Service Required':'Full Grooming','Temperament':'Calm','Style Notes':'Lion cut, keep face and tail fluffy',
+    'Shampoo Used':'Whitening Shampoo','Additional Notes':'Owner requested extra care around the eyes.',
+    'Base Price (SGD)':'110','Discount (%)':'','Charges (SGD)':'110','Has Package':'No' },
+];
+
+/* ================================================================ */
+
+let state = { 
+  tab:'list', 
+  records:[], 
+  loading:false, 
+  search:'', 
+  editingId:null, 
+  formData:{}, 
+  detailId:null,
+  revenueView:'monthly',
+  revenueFilter: { owner: 'All', month: 'All' }
+};
+
+function initBranding(){
+  document.title = BUSINESS_NAME;
+  const brand = document.getElementById('brandMark');
+  const nameEl = brand.querySelector('h1');
+  nameEl.textContent = BUSINESS_NAME;
+  if(LOGO_URL){
+    const stamp = brand.querySelector('.stamp');
+    const img = document.createElement('img');
+    img.className = 'logo';
+    img.src = LOGO_URL;
+    img.alt = BUSINESS_NAME + ' logo';
+    stamp.replaceWith(img);
+  }
+}
+
+function configured(){ return true; }
+
+// --- In-memory "backend" for the demo — same function signatures as the
+// real app so nothing else in this file needs to know the difference. ---
+function uid(){ return 'demo-' + Math.random().toString(36).slice(2, 10); }
+
+async function apiList(){
+  return JSON.parse(JSON.stringify(demoRecords)).reverse();
+}
+async function apiCreate(data){
+  const id = uid();
+  demoRecords.push(Object.assign({ 'Record ID': id }, data));
+  return { success: true, id: id };
+}
+async function apiUpdate(id, data){
+  const idx = demoRecords.findIndex(r => r['Record ID'] === id);
+  if(idx === -1) return { success: false, error: 'Record not found' };
+  demoRecords[idx] = Object.assign({}, demoRecords[idx], data);
+  return { success: true };
+}
+async function apiDelete(id){
+  demoRecords = demoRecords.filter(r => r['Record ID'] !== id);
+  return { success: true };
+}
+function fileToCompressedDataUrl(file, maxDim, quality){
+  maxDim = maxDim || 1600;
+  quality = quality || 0.82;
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const img = new Image();
+      img.onload = () => {
+        let { width, height } = img;
+        if (width > maxDim || height > maxDim) {
+          if (width > height) { height = Math.round(height * maxDim / width); width = maxDim; }
+          else { width = Math.round(width * maxDim / height); height = maxDim; }
+        }
+        const canvas = document.createElement('canvas');
+        canvas.width = width; canvas.height = height;
+        canvas.getContext('2d').drawImage(img, 0, 0, width, height);
+        resolve(canvas.toDataURL('image/jpeg', quality));
+      };
+      img.onerror = reject;
+      img.src = e.target.result;
+    };
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+
+async function uploadPhotos(recordId, files) {
+  // Photo storage needs a real Google Drive connection, which this
+  // self-contained demo doesn't have — let the person know rather than
+  // silently failing or pretending it worked.
+  return { success: false, error: 'Photo upload needs your own Google Sheets setup — available once your own copy is running.' };
+}
+
+function showToast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), 2200);
+}
+function esc(s){ return (s===undefined||s===null) ? '' : String(s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+// Groups records by owner using a trimmed, case-insensitive key, so
+// "Lex", "lex", and "Lex " (stray whitespace/casing from typing on
+// different days) are all treated as the same customer instead of
+// silently splitting into separate rows/trails.
+function ownerKey(name){
+  return String(name || 'Unknown').trim().toLowerCase();
+}
+function ownerDisplayName(name){
+  var trimmed = String(name || 'Unknown').trim();
+  return trimmed || 'Unknown';
+}
+function todayStr(){ const d=new Date(); return d.toISOString().slice(0,10); }
+function nowTimeStr(){ const d=new Date(); return String(d.getHours()).padStart(2,'0') + ':' + String(d.getMinutes()).padStart(2,'0'); }
+
+async function refreshRecords(){
+  state.loading = true; render();
+  try{
+    state.records = await apiList();
+  }catch(err){
+    showToast('Could not load records — check your setup');
+    console.error(err);
+  }
+  state.loading = false; render();
+}
+
+function render(){
+  document.querySelectorAll('nav.tabs button').forEach(b=>{
+    b.classList.toggle('active', b.dataset.tab === state.tab || (state.tab==='detail' && b.dataset.tab==='list') || (state.tab==='edit' && b.dataset.tab==='form'));
+  });
+  const app = document.getElementById('app');
+  if(!configured()){
+    app.innerHTML = configBanner() + emptyConfigState();
+    return;
+  }
+  if(state.tab === 'list') app.innerHTML = renderList();
+  else if(state.tab === 'detail') app.innerHTML = renderDetail();
+  else if(state.tab === 'form' || state.tab === 'edit') app.innerHTML = renderForm();
+  else if(state.tab === 'revenue') app.innerHTML = renderRevenue();
+  attachHandlers();
+}
+
+function configBanner(){
+  return `<div class="config-banner">
+    <strong>One step left:</strong> open <code>Code.gs</code>, deploy it as a Web App in Google Apps Script,
+    then paste the Web App URL into <code>APPS_SCRIPT_URL</code> near the top of this file's script.
+  </div>`;
+}
+function emptyConfigState(){
+  return `<div class="card empty-state"><div class="stamp">🐾</div>
+    <div style="font-family:'Shippori Mincho',serif;font-size:16px;margin-bottom:6px;">Not connected yet</div>
+    <div>This page will list and log grooming records once it's linked to your Google Sheet.</div>
+  </div>`;
+}
+
+function renderList(){
+  if(state.loading) return `<div class="loading">Loading records…</div>`;
+  const q = state.search.trim().toLowerCase();
+  const filtered = state.records.filter(r=>{
+    if(!q) return true;
+    return (String(r['Pet Name']||'').toLowerCase().includes(q)) || (String(r['Owner Name']||'').toLowerCase().includes(q)) || (String(r['Breed']||'').toLowerCase().includes(q));
+  });
+  let html = `<div class="list-toolbar">
+    <div class="search-box"><input id="searchInput" type="text" placeholder="Search by pet, owner, or breed…" value="${esc(state.search)}"></div>
+    <button class="btn" id="newRecordBtn">+ New Record</button>
+  </div>`;
+  if(filtered.length === 0){
+    html += `<div class="card empty-state"><div class="stamp">🐾</div>
+      <div style="font-family:'Shippori Mincho',serif;font-size:16px;margin-bottom:6px;">${state.records.length===0 ? 'No records yet' : 'No matches'}</div>
+      <div>${state.records.length===0 ? 'Log your first grooming visit to get started.' : 'Try a different search.'}</div>
+    </div>`;
+    return html;
+  }
+  html += filtered.map(r=>{
+    const flags = [];
+    PRE_ASSESSMENT.forEach(cat=>{
+      const val = r[cat.key];
+      const opt = cat.options.find(o=>o[0]===val);
+      if(opt && opt[1]==='warn') flags.push('warn');
+    });
+    const flagHtml = flags.slice(0,4).map(()=>`<span class="dot" style="background:var(--clay)"></span>`).join('');
+    return `<div class="record-tag" data-id="${esc(r['Record ID'])}">
+      <span class="punch"></span>
+      <div class="info">
+        <div class="dog">${esc(r['Pet Name']||'Unnamed')} <span style="color:var(--ink-soft);font-weight:400;">— ${esc(r['Owner Name']||'')}</span></div>
+        <div class="meta">${r['Pet Type'] ? esc(r['Pet Type']) + ' · ' : ''}${esc(r['Breed']||'—')} · ${esc(r['Service Required']||'—')}</div>
       </div>
-    </div>
-    <div class="tag-stage">
-      <div class="tag">
-        <div class="hole"></div>
-        <div class="tag-top">
-          <div class="dog-name">Coco</div>
-          <div class="owner-name">Alex Lee</div>
+      <div class="flags">${flagHtml}</div>
+      <div class="date">${esc(r['Date of Grooming']||'')}${r['Time of Grooming'] ? `<br><span style="font-size:11px;">${esc(r['Time of Grooming'])}</span>` : ''}</div>
+    </div>`;
+  }).join('');
+  return html;
+}
+
+function renderDetail(){
+  const r = state.records.find(x=>x['Record ID']===state.detailId);
+  if(!r) return `<div class="empty-state">Record not found.</div>`;
+  function item(label, val){
+    return `<div class="detail-item"><label>${esc(label)}</label><div class="val ${val?'':'empty'}">${val?esc(val):'Not recorded'}</div></div>`;
+  }
+  function tagItem(label, key, options){
+    const val = r[key];
+    const values = parseMultiValue(val);
+    const chips = values.map(v=>{
+      const opt = options.find(o=>o[0]===v);
+      const color = opt ? ({ok:'var(--sage)',warn:'var(--clay)',neutral:'var(--ink)'}[opt[1]]) : 'var(--ink-soft)';
+      return `<span class="tag-chip" style="margin-right:12px;"><span class="dot" style="background:${color}"></span>${esc(v)}</span>`;
+    }).join('');
+    return `<div class="detail-item"><label>${esc(label)}</label><div class="val ${val?'':'empty'}">
+      ${val ? chips : 'Not recorded'}
+    </div></div>`;
+  }
+  
+  const photos = (r['Photos'] || '').split(',').map(function(url) { 
+    return url.trim(); 
+  }).filter(Boolean);
+
+  console.log('Photos URLs:', photos);
+
+  // Debug: Check each URL
+photos.forEach(function(url, index) {
+  console.log('Photo ' + (index + 1) + ' URL:', url);
+  console.log('Converted URL:', getDirectImageUrl(url));
+  
+  // Test if the image loads
+  var testImg = new Image();
+  testImg.onload = function() { console.log('Photo ' + (index + 1) + ' loads successfully'); };
+  testImg.onerror = function() { console.log('Photo ' + (index + 1) + ' FAILS to load'); };
+  testImg.src = getDirectImageUrl(url);
+});
+  
+  // Build the photo gallery HTML
+  let photoGalleryHtml = '';
+  if (photos.length > 0) {
+    photoGalleryHtml = photos.map((url, index) => {
+      var cleanUrl = url.trim();
+      if (cleanUrl && !cleanUrl.startsWith('http')) {
+        cleanUrl = 'https://' + cleanUrl;
+      }
+      // Convert to direct image URL for display
+      var displayUrl = getDirectImageUrl(cleanUrl);
+      return `
+        <div class="photo-thumbnail" style="position:relative;width:120px;height:120px;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;background:#f5f5f5;display:flex;align-items:center;justify-content:center;">
+          <img src="${esc(displayUrl)}" 
+               style="width:100%;height:100%;object-fit:cover;" 
+               onclick="window.open('${esc(cleanUrl)}', '_blank')" 
+               onerror="this.style.display='none';this.parentElement.innerHTML='<div style=\\'padding:20px;text-align:center;color:#999;font-size:12px;\\'>📷<br>Photo ${index + 1}</div>'">
+          <button type="button" class="remove-btn" data-url="${esc(cleanUrl)}" style="position:absolute;top:4px;right:4px;background:var(--clay);color:#fff;border:none;border-radius:50%;width:24px;height:24px;font-size:14px;cursor:pointer;line-height:1;display:flex;align-items:center;justify-content:center;z-index:5;">×</button>
+          <div class="photo-number" style="position:absolute;bottom:4px;right:4px;background:rgba(0,0,0,0.6);color:#fff;font-size:10px;padding:2px 6px;border-radius:10px;z-index:5;">${index + 1}/5</div>
         </div>
-        <div class="flags">
-          <span class="flag"><span class="dot"></span>Eyes: Normal</span>
-          <span class="flag warn"><span class="dot"></span>Coat: Matting</span>
-          <span class="flag"><span class="dot"></span>Nails: Trimmed</span>
+      `;
+    }).join('');
+  }
+
+  let html = `<div class="card">
+    <div class="detail-header">
+      <div>
+        <h2>${esc(r['Pet Name']||'Unnamed')}</h2>
+        <div class="sub">${esc(r['Owner Name']||'')} · Groomed ${esc(r['Date of Grooming']||'—')}${r['Time of Grooming'] ? ' at ' + esc(r['Time of Grooming']) : ''}</div>
+      </div>
+      <div class="detail-actions">
+        <button class="btn secondary" id="exportPdfBtn">Export as PDF</button>
+        <button class="btn secondary" id="shareWhatsAppBtn">Share via WhatsApp</button>
+        <button class="btn secondary" id="editBtn">Edit</button>
+        <button class="btn danger" id="deleteBtn">Delete</button>
+      </div>
+    </div>
+    <div class="detail-grid">
+      ${item('Pet Type', r['Pet Type'])}
+      ${item('Breed', r['Breed'])}
+      ${tagItem('Gender', 'Gender', GENDER.options)}
+      ${item('Weight (kg)', r['Weight (kg)'])}
+      ${tagItem('Service Required', 'Service Required', SERVICE.options)}
+      ${item('Base Price (SGD)', r['Base Price (SGD)'] ? r['Base Price (SGD)'] : (r['Charges (SGD)'] ? r['Charges (SGD)'] : ''))}
+      ${item('Discount', r['Discount (%)'] ? r['Discount (%)'] + '%' : '')}
+      ${item('Discount Notes', r['Discount Notes'] || '')}
+      ${item('Final Charges (SGD)', r['Charges (SGD)'] ? r['Charges (SGD)'] : '')}
+      ${item('Has Package', r['Has Package'] || 'No')}
+      ${item('Package Balance (SGD)', r['Package Balance'] ? parseFloat(r['Package Balance']).toFixed(2) : '0.00')}
+      ${item('Package Type', r['Package Type'] || '')}
+    </div>
+    <div class="section" style="padding-top:6px;">
+      <div class="section-title"><span class="num">01</span><h2>Pre-Assessment</h2></div>
+      <div class="detail-grid">
+        ${PRE_ASSESSMENT.map(cat => `
+          ${tagItem(cat.label, cat.key, cat.options)}
+          ${r[cat.key+' Notes'] ? `<div class="detail-item"><label>${esc(cat.label)} Notes</label><div class="val">${esc(r[cat.key+' Notes'])}</div></div>` : ''}
+        `).join('')}
+        ${tagItem('Mats', 'Mats', MATS.options)}
+      </div>
+    </div>
+    <div class="section">
+      <div class="section-title"><span class="num">02</span><h2>Temperament &amp; Notes</h2></div>
+      <div class="detail-grid">
+        ${tagItem('Temperament', 'Temperament', TEMPERAMENT.options)}
+        ${item('Shampoo Used', r['Shampoo Used'])}
+      </div>
+      ${item('Specific Request / Style Notes', r['Style Notes'])}
+      ${item('Additional Notes', r['Additional Notes'])}
+    </div>
+    ${(() => {
+      const history = findDogHistory(r['Pet Name'], r['Owner Name'], r['Record ID']);
+      if(history.length === 0) return '';
+      return `<div class="section" style="padding-top:6px;">
+        <div class="section-title"><span class="num">03</span><h2>Visit History</h2></div>
+        ${history.map(h=>`
+          <div class="record-tag history-row" data-id="${esc(h['Record ID'])}" style="margin-bottom:8px;">
+            <span class="punch"></span>
+            <div class="info">
+              <div class="dog">${esc(h['Service Required']||'Visit')}</div>
+              <div class="meta">${esc(h['Temperament']||'—')}${h['Style Notes'] ? ' · '+esc(h['Style Notes']) : ''}</div>
+            </div>
+            <div class="date">${esc(h['Date of Grooming']||'')}${h['Time of Grooming'] ? ' '+esc(h['Time of Grooming']) : ''}${h['Charges (SGD)'] ? +esc(h['Charges (SGD)']) : ''}</div>
+          </div>`).join('')}
+      </div>`;
+    })()}
+    <div class="section">
+      <div class="section-title"><span class="num">04</span><h2>Photos</h2></div>
+      <div style="background:var(--sage-soft);border:1px solid var(--sage);border-radius:var(--radius);padding:14px 16px;margin-bottom:16px;">
+        <div style="font-size:13px;color:var(--sage);">
+          💡 <strong>Note:</strong> Please save the record first before uploading photos. Maximum 5 photos.
         </div>
-        <div class="divider"></div>
-        <div class="ledger-label">Package Trail</div>
-        <div class="ledger-row"><span>Top Up</span><span class="amt up">+500.00</span></div>
-        <div class="ledger-row"><span>Used — Coco</span><span class="amt down">−80.00</span></div>
-        <div class="ledger-row"><span>Used — Milo</span><span class="amt down">−90.00</span></div>
-        <div class="balance"><span style="font-size:12px;color:var(--ink-soft);">Balance left</span><span class="num">330.00</span></div>
       </div>
+      
+      <div class="photo-upload-area" id="photoUploadArea">
+        <div style="font-size:32px;">📷</div>
+        <div style="font-size:13px;color:var(--ink-soft);margin:8px 0;">Click or drag photos here</div>
+        <div style="font-size:11px;color:var(--ink-soft);">Maximum 5 photos (JPG, PNG, GIF)</div>
+        <div class="upload-progress">Uploading...</div>
+        <input type="file" id="photoInput" multiple accept="image/*" style="display:none;">
+      </div>
+      
+      <div id="photoGallery" style="display:${photos.length > 0 ? 'flex' : 'none'};flex-wrap:wrap;gap:12px;margin-top:12px;">
+        ${photoGalleryHtml}
+      </div>
+      ${photos.length === 0 ? `<div style="text-align:center;color:var(--ink-soft);font-size:13px;padding:20px 0;">No photos uploaded yet</div>` : ''}
+      <div style="font-size:11px;color:var(--ink-soft);margin-top:8px;">${photos.length}/5 photos used</div>
+    </div>
+  </div>`;
+  return html;
+}
+
+function renderRevenue(){
+  // --- FILTERS ---
+  // Get unique owners and months for filter dropdowns (deduped by normalized key)
+  var ownerNameByKey = {};
+  state.records.forEach(function(r) {
+    var key = ownerKey(r['Owner Name']);
+    if (!ownerNameByKey[key]) ownerNameByKey[key] = ownerDisplayName(r['Owner Name']);
+  });
+  var allOwners = Object.keys(ownerNameByKey).sort(function(a, b){ return ownerNameByKey[a].localeCompare(ownerNameByKey[b]); });
+  var allMonths = [...new Set(state.records.map(function(r) { 
+    var dateStr = r['Date of Grooming'] || '';
+    return dateStr ? dateStr.slice(0, 7) : null; 
+  }).filter(Boolean))].sort().reverse();
+  
+  // Initialize filter state if not exists
+  if (!state.revenueFilter) {
+    state.revenueFilter = { owner: 'All', month: 'All' };
+  }
+
+  // --- FILTER RECORDS ---
+  var filteredRecords = state.records.filter(function(r) {
+    var ownerMatch = state.revenueFilter.owner === 'All' || ownerKey(r['Owner Name']) === state.revenueFilter.owner;
+    var dateStr = r['Date of Grooming'] || '';
+    var monthKey = dateStr ? dateStr.slice(0, 7) : null;
+    var monthMatch = state.revenueFilter.month === 'All' || monthKey === state.revenueFilter.month;
+    return ownerMatch && monthMatch;
+  });
+
+  // --- BUILD MONTHLY DATA ---
+  const byMonth = {};
+  let grossTotal = 0, discountTotal = 0, netTotal = 0, packageTotal = 0, cashTotal = 0, toppedUpTotal = 0, grandCount = 0;
+
+  filteredRecords.forEach(r => {
+    const basePrice = parseFloat(r['Base Price (SGD)']) || 0;
+    const charge = parseFloat(r['Charges (SGD)']) || 0;
+    const gross = basePrice > 0 ? basePrice : charge;
+    const discountAmt = Math.max(0, gross - charge);
+    const isPackage = r['Has Package'] === 'Yes';
+    const topUpAmt = parseFloat(r['Package Top Up (SGD)']) || 0;
+    const dateStr = r['Date of Grooming'] || '';
+    const monthKey = dateStr ? dateStr.slice(0, 7) : 'unspecified';
+
+    if(!byMonth[monthKey]) byMonth[monthKey] = { count: 0, gross: 0, discount: 0, net: 0, package: 0, cash: 0, toppedUp: 0 };
+    byMonth[monthKey].count += 1;
+    byMonth[monthKey].gross += gross;
+    byMonth[monthKey].discount += discountAmt;
+    byMonth[monthKey].net += charge;
+    if(isPackage){ byMonth[monthKey].package += charge; } else { byMonth[monthKey].cash += charge; }
+    byMonth[monthKey].toppedUp += topUpAmt;
+
+    grossTotal += gross;
+    discountTotal += discountAmt;
+    netTotal += charge;
+    grandCount += 1;
+    if(isPackage) packageTotal += charge; else cashTotal += charge;
+    toppedUpTotal += topUpAmt;
+  });
+
+  const months = Object.keys(byMonth).filter(k => k !== 'unspecified').sort().reverse();
+
+  // --- BUILD OWNER DATA ---
+  const ownerMap = {};
+  filteredRecords.forEach(function(r) {
+    var owner = ownerKey(r['Owner Name']);
+    if (!ownerMap[owner]) {
+      ownerMap[owner] = {
+        displayName: ownerDisplayName(r['Owner Name']),
+        gross: 0,
+        discount: 0,
+        net: 0,
+        packageUsed: 0,
+        packageToppedUp: 0,
+        cashPaid: 0,
+        count: 0,
+        packageBalance: 0,
+        packageType: '',
+        packageTrail: [],
+        pets: {}
+      };
+    }
+    var base = parseFloat(r['Base Price (SGD)']) || 0;
+    var charge = parseFloat(r['Charges (SGD)']) || 0;
+    var gross = base > 0 ? base : charge;
+    var discountAmt = Math.max(0, gross - charge);
+    var isPackage = r['Has Package'] === 'Yes';
+    var topUpAmt = parseFloat(r['Package Top Up (SGD)']) || 0;
+    
+    ownerMap[owner].gross += gross;
+    ownerMap[owner].discount += discountAmt;
+    ownerMap[owner].net += charge;
+    ownerMap[owner].count += 1;
+    if (r['Pet Name']) {
+      ownerMap[owner].pets[r['Pet Name']] = r['Pet Type'] || '';
+    }
+    if (isPackage) {
+      ownerMap[owner].packageUsed += charge;
+      if (topUpAmt > 0) {
+        ownerMap[owner].packageToppedUp += topUpAmt;
+        ownerMap[owner].packageTrail.push({
+          date: r['Date of Grooming'] || '',
+          time: r['Time of Grooming'] || '',
+          dogName: r['Pet Name'] || '',
+          type: 'topup',
+          amount: topUpAmt,
+          balanceAfter: null
+        });
+      }
+      ownerMap[owner].packageTrail.push({
+        date: r['Date of Grooming'] || '',
+        time: r['Time of Grooming'] || '',
+        dogName: r['Pet Name'] || '',
+        type: 'usage',
+        amount: charge,
+        balanceAfter: parseFloat(r['Package Balance']) || 0,
+        packageType: r['Package Type'] || ''
+      });
+    } else {
+      ownerMap[owner].cashPaid += charge;
+    }
+  });
+
+  // Sort each owner's trail chronologically, and take the CURRENT balance
+  // from the most recent entry — not just whichever record happened to be
+  // processed last, which previously gave a wrong (oldest-record) balance.
+  for (var ownerMapKey in ownerMap) {
+    var trail = ownerMap[ownerMapKey].packageTrail;
+    trail.sort(function(a, b){ return (String(a.date) + String(a.time)).localeCompare(String(b.date) + String(b.time)); });
+    var lastWithBalance = null;
+    for (var ti = trail.length - 1; ti >= 0; ti--) {
+      if (trail[ti].balanceAfter !== null) { lastWithBalance = trail[ti]; break; }
+    }
+    if (lastWithBalance) {
+      ownerMap[ownerMapKey].packageBalance = lastWithBalance.balanceAfter;
+      ownerMap[ownerMapKey].packageType = lastWithBalance.packageType || ownerMap[ownerMapKey].packageType;
+    }
+  }
+
+  var owners = Object.keys(ownerMap).sort(function(a, b){ return ownerMap[a].displayName.localeCompare(ownerMap[b].displayName); });
+
+  // --- BUILD HTML ---
+  let html = '';
+
+  // Filter Controls
+  html += `<div style="display:flex;gap:12px;margin-bottom:16px;flex-wrap:wrap;align-items:center;background:var(--card);padding:14px 18px;border:1px solid var(--line);border-radius:var(--radius);">
+    <div style="display:flex;align-items:center;gap:6px;">
+      <label style="font-size:12px;color:var(--ink-soft);">👤 Owner:</label>
+      <select id="ownerFilter" style="padding:6px 10px;border:1px solid var(--line);border-radius:var(--radius);background:#fff;font-size:13px;">
+        <option value="All" ${state.revenueFilter.owner === 'All' ? 'selected' : ''}>All Owners</option>
+        ${allOwners.map(function(key) {
+          return `<option value="${esc(key)}" ${state.revenueFilter.owner === key ? 'selected' : ''}>${esc(ownerNameByKey[key])}</option>`;
+        }).join('')}
+      </select>
+    </div>
+    <div style="display:flex;align-items:center;gap:6px;">
+      <label style="font-size:12px;color:var(--ink-soft);">📅 Month:</label>
+      <select id="monthFilter" style="padding:6px 10px;border:1px solid var(--line);border-radius:var(--radius);background:#fff;font-size:13px;">
+        <option value="All" ${state.revenueFilter.month === 'All' ? 'selected' : ''}>All Months</option>
+        ${allMonths.map(function(m) {
+          var label = new Date(m + '-01').toLocaleDateString('en-US', { month:'long', year:'numeric' });
+          return `<option value="${esc(m)}" ${state.revenueFilter.month === m ? 'selected' : ''}>${esc(label)}</option>`;
+        }).join('')}
+      </select>
+    </div>
+    <button class="btn secondary" id="clearFiltersBtn" style="padding:6px 14px;font-size:12px;">Clear Filters</button>
+    <span style="font-size:12px;color:var(--ink-soft);margin-left:auto;">${grandCount} record${grandCount !== 1 ? 's' : ''} shown</span>
+  </div>`;
+
+  // Toggle Buttons (Monthly / By Owner)
+  html += `<div style="display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;">
+    <button class="btn ${state.revenueView === 'monthly' ? '' : 'secondary'}" id="viewMonthlyBtn">📊 Monthly</button>
+    <button class="btn ${state.revenueView === 'owner' ? '' : 'secondary'}" id="viewOwnerBtn">👤 By Owner</button>
+  </div>`;
+
+  // Monthly View
+  if (state.revenueView === 'monthly') {
+    if (grandCount === 0) {
+      html += `<div class="card empty-state"><div class="stamp">🐾</div>
+        <div style="font-family:'Shippori Mincho',serif;font-size:16px;margin-bottom:6px;">No records match the selected filters</div>
+        <div>Try changing the Owner or Month filter above.</div>
+      </div>`;
+    } else {
+      html += `<div class="revenue-summary cols-4">
+        <div class="stat"><div class="eyebrow">Gross Charges</div><div class="num">${grossTotal.toFixed(2)}</div></div>
+        <div class="stat"><div class="eyebrow">Discounts Given</div><div class="num clay">-${discountTotal.toFixed(2)}</div></div>
+        <div class="stat"><div class="eyebrow">Net Received</div><div class="num" style="color:var(--sage);">${netTotal.toFixed(2)}</div></div>
+        <div class="stat"><div class="eyebrow">Total Grooms</div><div class="num">${grandCount}</div></div>
+      </div>
+      <div style="font-size:12px;color:var(--ink-soft);margin:-14px 0 20px;">
+        Net Received = Gross Charges − Discounts Given, and includes ${packageTotal.toFixed(2)} drawn from prepaid packages alongside ${cashTotal.toFixed(2)} paid directly.
+        ${toppedUpTotal > 0 ? ' Customers topped up ' + toppedUpTotal.toFixed(2) + ' in packages during this period (shown per-owner below).' : ''}
+      </div>`;
+
+      html += `<div class="card" style="overflow-x:auto;">
+        <table style="width:100%;border-collapse:collapse;font-size:13px;">
+          <thead><tr style="border-bottom:1px solid var(--line);text-align:left;">
+            <th style="padding:12px 16px;">Month</th>
+            <th style="padding:12px 16px;">Grooms</th>
+            <th style="padding:12px 16px;text-align:right;">Gross</th>
+            <th style="padding:12px 16px;text-align:right;">Discounts</th>
+            <th style="padding:12px 16px;text-align:right;">Net Received</th>
+            <th style="padding:12px 16px;text-align:right;">Via Package</th>
+          </tr></thead>
+          <tbody>`;
+
+      function tableRow(label, m){
+        return `<tr style="border-bottom:1px solid var(--line-soft);">
+          <td style="padding:12px 16px;font-weight:500;">${esc(label)}</td>
+          <td style="padding:12px 16px;color:var(--ink-soft);">${m.count}</td>
+          <td style="padding:12px 16px;text-align:right;">${m.gross.toFixed(2)}</td>
+          <td style="padding:12px 16px;text-align:right;color:var(--clay);">${m.discount > 0 ? '-' + m.discount.toFixed(2) : '—'}</td>
+          <td style="padding:12px 16px;text-align:right;font-weight:500;color:var(--sage);">${m.net.toFixed(2)}</td>
+          <td style="padding:12px 16px;text-align:right;color:var(--ink-soft);">${m.package > 0 ? m.package.toFixed(2) : '—'}</td>
+        </tr>`;
+      }
+
+      months.forEach(k => {
+        const label = new Date(k + '-01').toLocaleDateString('en-US', { month:'long', year:'numeric' });
+        html += tableRow(label, byMonth[k]);
+      });
+      if(byMonth['unspecified']) html += tableRow('Undated', byMonth['unspecified']);
+
+      html += `<tr style="border-top:2px solid var(--ink);font-weight:600;">
+          <td style="padding:12px 16px;">Total</td>
+          <td style="padding:12px 16px;color:var(--ink-soft);">${grandCount}</td>
+          <td style="padding:12px 16px;text-align:right;">${grossTotal.toFixed(2)}</td>
+          <td style="padding:12px 16px;text-align:right;color:var(--clay);">${discountTotal > 0 ? '-' + discountTotal.toFixed(2) : '—'}</td>
+          <td style="padding:12px 16px;text-align:right;color:var(--sage);">${netTotal.toFixed(2)}</td>
+          <td style="padding:12px 16px;text-align:right;color:var(--ink-soft);">${packageTotal > 0 ? packageTotal.toFixed(2) : '—'}</td>
+        </tr>`;
+
+      html += `</tbody></table></div>`;
+    }
+  }
+
+  // Owner View
+  if (state.revenueView === 'owner') {
+    if (owners.length === 0) {
+      html += `<div class="card empty-state"><div class="stamp">🐾</div>
+        <div style="font-family:'Shippori Mincho',serif;font-size:16px;margin-bottom:6px;">No customer data matches the selected filters</div>
+        <div>Try changing the Owner or Month filter above.</div>
+      </div>`;
+    } else {
+      html += `<div class="card" style="overflow-x:auto;">
+        <h3 style="padding:16px 20px 0;font-family:'Shippori Mincho',serif;font-size:16px;">Customer Revenue Summary</h3>
+        <table style="width:100%;border-collapse:collapse;font-size:13px;">
+          <thead><tr style="border-bottom:1px solid var(--line);text-align:left;">
+            <th style="padding:12px 16px;">Owner</th>
+            <th style="padding:12px 16px;">Pets</th>
+            <th style="padding:12px 16px;text-align:right;">Grooms</th>
+            <th style="padding:12px 16px;text-align:right;">Gross</th>
+            <th style="padding:12px 16px;text-align:right;">Discounts</th>
+            <th style="padding:12px 16px;text-align:right;">Net</th>
+            <th style="padding:12px 16px;text-align:right;">Topped Up</th>
+            <th style="padding:12px 16px;text-align:right;">Package Used</th>
+            <th style="padding:12px 16px;text-align:right;">Cash Paid</th>
+            <th style="padding:12px 16px;text-align:right;">Balance Left</th>
+            <th style="padding:12px 16px;">Package Type</th>
+          </tr></thead>
+          <tbody>`;
+
+      owners.forEach(function(owner) {
+        var data = ownerMap[owner];
+        var hasTrail = data.packageTrail.length > 0;
+        var isExpanded = state.expandedOwnerTrail === owner;
+        var petsList = Object.keys(data.pets).map(function(name){
+          var type = data.pets[name];
+          var icon = type === 'Cat' ? '🐈' : (type === 'Dog' ? '🐕' : '•');
+          return icon + ' ' + esc(name);
+        }).join(', ');
+        html += `<tr class="${hasTrail ? 'owner-trail-toggle' : ''}" data-owner="${esc(owner)}" style="border-bottom:1px solid var(--line-soft);${hasTrail ? 'cursor:pointer;' : ''}">
+          <td style="padding:12px 16px;font-weight:500;">${esc(data.displayName)}${hasTrail ? ' <span style="color:var(--ink-soft);font-size:11px;">' + (isExpanded ? '▾' : '▸') + ' trail</span>' : ''}</td>
+          <td style="padding:12px 16px;font-size:12px;color:var(--ink-soft);white-space:nowrap;">${petsList || '—'}</td>
+          <td style="padding:12px 16px;text-align:right;">${data.count}</td>
+          <td style="padding:12px 16px;text-align:right;">${data.gross.toFixed(2)}</td>
+          <td style="padding:12px 16px;text-align:right;color:var(--clay);">${data.discount > 0 ? '-' + data.discount.toFixed(2) : '—'}</td>
+          <td style="padding:12px 16px;text-align:right;font-weight:500;color:var(--sage);">${data.net.toFixed(2)}</td>
+          <td style="padding:12px 16px;text-align:right;color:var(--sage);">${data.packageToppedUp > 0 ? '+' + data.packageToppedUp.toFixed(2) : '—'}</td>
+          <td style="padding:12px 16px;text-align:right;color:var(--ink-soft);">${data.packageUsed > 0 ? data.packageUsed.toFixed(2) : '—'}</td>
+          <td style="padding:12px 16px;text-align:right;">${data.cashPaid > 0 ? data.cashPaid.toFixed(2) : '—'}</td>
+          <td style="padding:12px 16px;text-align:right;font-weight:600;color:${data.packageBalance > 0 ? 'var(--sage)' : 'var(--clay)'};">${data.packageBalance.toFixed(2)}</td>
+          <td style="padding:12px 16px;font-size:12px;color:var(--ink-soft);">${esc(data.packageType) || '—'}</td>
+        </tr>`;
+
+        if(isExpanded && hasTrail){
+          html += `<tr><td colspan="10" style="padding:0;background:var(--paper);">
+            <div style="padding:14px 20px;">
+              <div style="font-size:11px;text-transform:uppercase;letter-spacing:.04em;color:var(--ink-soft);margin-bottom:8px;">Package Trail — ${esc(data.displayName)}</div>
+              <table style="width:100%;border-collapse:collapse;font-size:12.5px;">
+                <thead><tr style="text-align:left;color:var(--ink-soft);">
+                  <th style="padding:6px 10px;font-weight:500;">Date</th>
+                  <th style="padding:6px 10px;font-weight:500;">Event</th>
+                  <th style="padding:6px 10px;font-weight:500;">Pet</th>
+                  <th style="padding:6px 10px;font-weight:500;text-align:right;">Amount</th>
+                  <th style="padding:6px 10px;font-weight:500;text-align:right;">Balance After</th>
+                </tr></thead>
+                <tbody>
+                  ${data.packageTrail.map(function(t){
+                    var isTopup = t.type === 'topup';
+                    return `<tr style="border-top:1px solid var(--line-soft);">
+                      <td style="padding:6px 10px;">${esc(t.date || '—')}${t.time ? ' ' + esc(t.time) : ''}</td>
+                      <td style="padding:6px 10px;color:${isTopup ? 'var(--sage)' : 'var(--ink-soft)'};">${isTopup ? '↑ Top Up' : '↓ Used'}</td>
+                      <td style="padding:6px 10px;">${esc(t.dogName || '—')}</td>
+                      <td style="padding:6px 10px;text-align:right;color:${isTopup ? 'var(--sage)' : 'var(--clay)'};">${isTopup ? '+' : '-'}${t.amount.toFixed(2)}</td>
+                      <td style="padding:6px 10px;text-align:right;font-weight:500;">${t.balanceAfter !== null ? t.balanceAfter.toFixed(2) : '—'}</td>
+                    </tr>`;
+                  }).join('')}
+                </tbody>
+              </table>
+            </div>
+          </td></tr>`;
+        }
+      });
+
+      html += `</tbody></table></div>`;
+    }
+  }
+
+  return html;
+}
+
+function shareRecordViaWhatsApp(r){
+  // WhatsApp's web link can't attach a locally-generated PDF file directly —
+  // that's a limitation of any website, not just this one. Instead this
+  // builds a clean text summary with tappable photo links, and opens
+  // WhatsApp so the groomer picks which client to send it to. Exporting the
+  // PDF first (separately) still works for anyone who wants a saved file to
+  // attach manually afterward.
+  const lines = [];
+  lines.push(`*Grooming Record — ${r['Pet Name'] || 'Unnamed'}*`);
+  lines.push(`${r['Date of Grooming'] || ''}${r['Time of Grooming'] ? ' at ' + r['Time of Grooming'] : ''}`);
+  lines.push('');
+  if(r['Service Required']) lines.push(`Service: ${r['Service Required']}`);
+  if(r['Shampoo Used']) lines.push(`Shampoo: ${r['Shampoo Used']}`);
+  if(r['Style Notes']) lines.push(`Style notes: ${r['Style Notes']}`);
+  if(r['Additional Notes']) lines.push(`Notes: ${r['Additional Notes']}`);
+  if(r['Charges (SGD)']) lines.push(`Charges: ${r['Charges (SGD)']}`);
+
+  const photos = (r['Photos'] || '').split(',').map(u => u.trim()).filter(Boolean);
+  if(photos.length > 0){
+    lines.push('');
+    lines.push('Photos from today\'s groom:');
+    photos.forEach((url, i) => lines.push(`${i + 1}. ${url}`));
+  }
+
+  lines.push('');
+  lines.push(`Thank you for trusting ${BUSINESS_NAME}!`);
+
+  const message = encodeURIComponent(lines.join('\n'));
+  window.open(`https://wa.me/?text=${message}`, '_blank');
+}
+
+function exportRecordAsPdf(r){
+  function row(label, val){
+    return '<div><span class="k">' + esc(label) + '</span>' + (val ? esc(val) : '—') + '</div>';
+  }
+  function tagVal(key, options){
+    var val = r[key];
+    return val || '—';
+  }
+  var printArea = document.getElementById('printArea');
+  
+  var basePrice = parseFloat(r['Base Price (SGD)']) || 0;
+  var discount = parseFloat(r['Discount (%)']) || 0;
+  var finalCharge = parseFloat(r['Charges (SGD)']) || 0;
+  
+  if (!r['Charges (SGD)'] && basePrice > 0) {
+    finalCharge = basePrice * (1 - discount / 100);
+  }
+  
+  var photos = [];
+  if (r['Photos']) {
+    if (typeof r['Photos'] === 'string') {
+      photos = r['Photos'].split(',').map(function(url) { return url.trim(); }).filter(Boolean);
+    } else if (Array.isArray(r['Photos'])) {
+      photos = r['Photos'].filter(Boolean);
+    }
+  }
+
+  var photoHtml = '';
+  if (photos.length > 0) {
+    photoHtml = '<h3>Photos</h3><div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(150px, 1fr));gap:10px;margin-top:10px;">';
+    photos.forEach(function(url, index) {
+      var cleanUrl = url.trim();
+      if (cleanUrl && !cleanUrl.startsWith('http')) {
+        cleanUrl = 'https://' + cleanUrl;
+      }
+      var displayUrl = getDirectImageUrl(cleanUrl);
+      // In the PDF photo section
+photoHtml += '<div style="border:1px solid #ddd;border-radius:4px;overflow:hidden;page-break-inside:avoid;background:#f9f9f9;min-height:150px;display:flex;align-items:center;justify-content:center;">';
+photoHtml += '<img src="' + esc(displayUrl) + '" style="width:100%;height:150px;object-fit:contain;display:block;" onerror="this.style.display=\'none\';this.parentElement.innerHTML=\'<div style=\\\'padding:20px;text-align:center;color:#999;font-size:14px;\\\'>📷 Photo ' + (index + 1) + '</div>\'">';
+photoHtml += '</div>';
+    });
+    photoHtml += '</div>';
+  } else {
+    photoHtml = '<p style="color:#999;font-size:12px;">No photos attached</p>';
+  }
+  
+  printArea.innerHTML = '<div class="print-doc">' +
+    '<div class="p-head">' +
+      (LOGO_URL ? '<img src="' + esc(LOGO_URL) + '" alt="logo">' : '') +
+      '<div class="biz">' + esc(BUSINESS_NAME) + '</div>' +
+      '<div class="doc-title">Grooming Record<br>' + esc(r['Date of Grooming']||'') + (r['Time of Grooming'] ? ' ' + esc(r['Time of Grooming']) : '') + '</div>' +
+    '</div>' +
+    '<h3>Pet &amp; Owner</h3>' +
+    '<div class="p-grid">' +
+      row('Pet Name', r['Pet Name']) +
+      row('Owner Name', r['Owner Name']) +
+      row('Breed', r['Breed']) +
+      row('Gender', r['Gender']) +
+      row('Weight (kg)', r['Weight (kg)']) +
+    '</div>' +
+    '<h3>Service Notes</h3>' +
+    '<div class="p-grid">' +
+      row('Service Required', r['Service Required']) +
+      row('Temperament', formatMultiValue(r['Temperament'])) +
+      row('Shampoo Used', formatMultiValue(r['Shampoo Used'])) +
+    '</div>' +
+    '<h3>Pre-Assessment</h3>' +
+    '<div class="p-grid">' +
+      PRE_ASSESSMENT.map(function(cat){ return row(cat.label, tagVal(cat.key) + (r[cat.key+' Notes'] ? ' — '+r[cat.key+' Notes'] : '')); }).join('') +
+      row('Mats', r['Mats']) +
+    '</div>' +
+    (r['Style Notes'] ? '<div style="font-size:13px;margin-top:8px;"><span class="k" style="color:#777;font-size:10.5px;text-transform:uppercase;">Style Notes</span>' + esc(r['Style Notes']) + '</div>' : '') +
+    (r['Additional Notes'] ? '<div style="font-size:13px;margin-top:8px;"><span class="k" style="color:#777;font-size:10.5px;text-transform:uppercase;">Additional Notes</span>' + esc(r['Additional Notes']) + '</div>' : '') +
+    '<h3>Pricing &amp; Package</h3>' +
+    '<div class="p-grid" style="margin-bottom:12px;">' +
+      row('Base Price (SGD)', r['Base Price (SGD)'] ? parseFloat(r['Base Price (SGD)']).toFixed(2) : '—') +
+      row('Discount', r['Discount (%)'] ? r['Discount (%)'] + '%' : '—') +
+      row('Discount Notes', r['Discount Notes'] || '—') +
+      row('Has Package', r['Has Package'] || 'No') +
+      row('Package Type', r['Package Type'] || '—') +
+      row('Package Balance (SGD)', r['Package Balance'] ? parseFloat(r['Package Balance']).toFixed(2) : '0.00') +
+    '</div>' +
+    '<div class="p-charge"><span>Total Charges (SGD)</span><span>' + finalCharge.toFixed(2) + '</span></div>' +
+    photoHtml +
+    '<div class="p-footer">' + esc(BUSINESS_NAME) + ' | More than a haircut - A calm and comfortable grooming experience.</div>' +
+  '</div>';
+  
+  var imgs = Array.prototype.slice.call(printArea.querySelectorAll('img'));
+  if (imgs.length === 0) {
+    window.print();
+  } else {
+    var loaded = 0;
+    var done = function(){ loaded++; if (loaded >= imgs.length) window.print(); };
+    imgs.forEach(function(img){
+      if (img.complete) done();
+      else { img.onload = done; img.onerror = done; }
+    });
+  }
+}
+
+function findDogHistory(dogName, ownerName, excludeId){
+  const dn = String(dogName||'').trim().toLowerCase();
+  const on = String(ownerName||'').trim().toLowerCase();
+  if(!dn) return [];
+  return state.records.filter(r=>{
+    if(excludeId && r['Record ID']===excludeId) return false;
+    const rdn = String(r['Pet Name']||'').trim().toLowerCase();
+    const ron = String(r['Owner Name']||'').trim().toLowerCase();
+    if(rdn !== dn) return false;
+    if(on && ron !== on) return false;
+    return true;
+  }).sort((a,b)=> String(b['Date of Grooming']||'').localeCompare(String(a['Date of Grooming']||'')));
+}
+function uniqueDogNames(){ return [...new Set(state.records.map(r=>r['Pet Name']).filter(Boolean))]; }
+function uniqueOwnerNames(){ return [...new Set(state.records.map(r=>r['Owner Name']).filter(Boolean))]; }
+function renderVisitHistoryBox(dogName, ownerName){
+  const history = findDogHistory(dogName, ownerName, state.editingId);
+  if(history.length === 0) return '';
+  return `<div class="field" id="visitHistoryBox">
+    <div style="background:var(--sage-soft);border:1px solid var(--sage);border-radius:var(--radius);padding:14px 16px;">
+      <label style="color:var(--sage);margin-bottom:8px;">Previous Visits — ${esc(dogName)}</label>
+      ${history.slice(0,5).map(h=>`<div style="display:flex;justify-content:space-between;font-size:12.5px;padding:5px 0;border-bottom:1px solid rgba(0,0,0,.06);">
+        <span>${esc(h['Date of Grooming']||'—')} · ${esc(h['Service Required']||'—')}</span>
+        <span style="color:var(--ink-soft);">${h['Charges (SGD)'] ? ' '+esc(h['Charges (SGD)']) : ''}</span>
+      </div>`).join('')}
+      <div style="font-size:11.5px;color:var(--ink-soft);margin-top:8px;">Breed and gender were filled in from their last visit — adjust anything that's changed.</div>
+    </div>
+  </div>`;
+}
+
+function pillGroup(cat, selected, groupClass){
+  const selectedValues = Array.isArray(selected) ? selected : String(selected||'').split(',').map(v=>v.trim()).filter(Boolean);
+  return `<div class="pill-group ${groupClass||''}" data-key="${esc(cat.key)}">
+    ${cat.options.map(([label,tone])=>`
+      <button type="button" class="pill ${selectedValues.includes(label)?'selected '+tone:''}" data-value="${esc(label)}">
+        <span class="dot"></span>${esc(label)}
+      </button>`).join('')}
+  </div>`;
+}
+
+function multiPillGroup(cat, selected){
+  return pillGroup(cat, selected, 'multi-select');
+}
+
+function parseMultiValue(val){
+  return String(val||'').split(',').map(v=>v.trim()).filter(Boolean);
+}
+
+function formatMultiValue(val){
+  return parseMultiValue(val).join(', ');
+}
+
+function getDirectImageUrl(url) {
+  if (!url) return url;
+
+  // Only Google Drive links need converting to a direct-embeddable format.
+  // Anything else (a demo placeholder photo, an external image, etc.) has
+  // no Drive file ID to extract — return it untouched rather than pattern
+  // matching on query params like "?id=" that other sites use too.
+  if (!url.includes('drive.google.com')) {
+    return url;
+  }
+
+  // Already a direct URL
+  if (url.includes('uc?export=view') || url.includes('thumbnail?id=')) {
+    return url;
+  }
+  
+  // Extract file ID from various Google Drive URL formats
+  var fileId = null;
+  
+  // Format: /file/d/FILE_ID/view
+  var match = url.match(/\/file\/d\/([-\w]+)/);
+  if (match) fileId = match[1];
+  
+  // Format: /open?id=FILE_ID
+  if (!fileId) {
+    match = url.match(/[?&]id=([-\w]+)/);
+    if (match) fileId = match[1];
+  }
+  
+  // Format: /uc?export=view&id=FILE_ID (already direct)
+  if (!fileId) {
+    match = url.match(/[-\w]{25,}/);
+    if (match) fileId = match[0];
+  }
+  
+  if (fileId) {
+    return 'https://drive.google.com/uc?export=view&id=' + fileId;
+  }
+  
+  return url;
+}
+
+function renderForm(){
+  const d = state.formData;
+  const isEdit = state.tab === 'edit';
+  let html = `<div class="card">
+    <div class="section">
+      <div class="section-title"><span class="num">01</span><h2>Pet &amp; Owner</h2></div>
+      <div class="field"><label>Pet Type</label>${pillGroup(PET_TYPE, d['Pet Type'])}</div>
+      <div class="row">
+        <div class="field"><label>Pet Name</label><input type="text" id="f_PetName" list="dogDatalist" value="${esc(d['Pet Name'])}" placeholder="e.g. Mochi"></div>
+        <div class="field"><label>Owner Name</label><input type="text" id="f_OwnerName" list="ownerDatalist" value="${esc(d['Owner Name'])}" placeholder="e.g. Lim Wei"></div>
+      </div>
+      <datalist id="dogDatalist">${uniqueDogNames().map(n=>`<option value="${esc(n)}">`).join('')}</datalist>
+      <datalist id="ownerDatalist">${uniqueOwnerNames().map(n=>`<option value="${esc(n)}">`).join('')}</datalist>
+      ${renderVisitHistoryBox(d['Pet Name'], d['Owner Name'])}
+      
+      <!-- PACKAGE SECTION -->
+<div class="field" style="border-top:1px solid var(--line-soft);padding-top:16px;margin-top:16px;">
+  <label style="font-weight:500;font-size:13px;color:var(--ink);">Package / Credit</label>
+  <div class="row">
+    <div class="field" style="margin-bottom:0;">
+      <label>Has Package?</label>
+      <div class="pill-group" id="packageToggle">
+        <button type="button" class="pill package-toggle ${d['Has Package'] === 'Yes' ? 'selected ok' : ''}" data-package="Yes">Yes</button>
+        <button type="button" class="pill package-toggle ${d['Has Package'] === 'No' || !d['Has Package'] ? 'selected neutral' : ''}" data-package="No">No</button>
+      </div>
+    </div>
+    <div class="field" style="margin-bottom:0;">
+      <label>Package Type</label>
+      <input type="text" id="f_PackageType" value="${esc(d['Package Type'] || '')}" placeholder="e.g. 5 Grooming Package">
     </div>
   </div>
-</header>
-
-<section>
-  <div class="wrap">
-    <div class="section-head">
-      <div class="eyebrow">Sound familiar?</div>
-      <h2>The parts of the job that don't show up in a scissors bag.</h2>
+  
+  <!-- PACKAGE BALANCE - DISPLAY ONLY (READ-ONLY) -->
+  <div class="row" style="margin-top:10px;">
+    <div class="field" style="margin-bottom:0;">
+      <label>Current Package Balance (SGD)</label>
+      <div style="padding:10px 12px;background:var(--sage-soft);border:1px solid var(--sage);border-radius:var(--radius);font-size:16px;font-weight:600;color:var(--sage);">
+        ${d['Package Balance'] ? parseFloat(d['Package Balance']).toFixed(2) : '0.00'}
+      </div>
+      <input type="hidden" id="f_PackageBalance" value="${esc(d['Package Balance'] || '0')}">
+      <div style="font-size:11px;color:var(--ink-soft);margin-top:4px;">💡 This balance is shared across all pets belonging to the same owner.</div>
     </div>
-    <div class="problem-list">
-      <div class="problem-item"><span class="q">—</span><span>A customer says they've still got three sessions left on their package. You have no real way to check.</span></div>
-      <div class="problem-item"><span class="q">—</span><span>You're typing the same dog's breed and gender into a form every single visit, for the tenth time.</span></div>
-      <div class="problem-item"><span class="q">—</span><span>A groom wraps up at 9pm, and by the time you sit down to log it, half the details you'd have wanted are already gone.</span></div>
-      <div class="problem-item"><span class="q">—</span><span>An owner asks what shampoo you used last time. You're scrolling old text messages trying to remember.</span></div>
-      <div class="problem-item"><span class="q">—</span><span>Your "revenue" for the month includes a package someone topped up six weeks ago, so the number doesn't actually mean anything.</span></div>
+    <div class="field" style="margin-bottom:0;">
+      <label>Credit Top Up (SGD)</label>
+      <div style="display:flex;gap:8px;">
+        <input type="number" step="0.01" min="0" id="f_CreditTopUp" placeholder="e.g. 100.00" style="flex:1;">
+        <button type="button" class="btn" id="topUpBtn" style="padding:10px 16px;white-space:nowrap;">➕ Top Up</button>
+      </div>
+      <div style="font-size:11px;color:var(--ink-soft);margin-top:4px;">Enter amount to add to the package balance.</div>
     </div>
   </div>
-</section>
-
-<section class="alt" id="features">
-  <div class="wrap">
-    <div class="section-head">
-      <div class="eyebrow">What's inside</div>
-      <h2>Not a feature list. The actual workflow of a solo groomer.</h2>
-    </div>
-
-    <div class="feature-row">
-      <div>
-        <h3>A real pre-assessment, every visit</h3>
-        <p>Eyes, ears, oral, anal, nails, skin, coat — logged every time, with a note the moment something's off. When an owner asks "has this always been like this," you have an answer.</p>
+</div>
+      
+      <div class="row">
+        <div class="field"><label>Date of Grooming</label><input type="date" id="f_Date" value="${esc(d['Date of Grooming']||todayStr())}"></div>
+        <div class="field"><label>Time of Grooming</label><input type="time" id="f_Time" value="${esc(d['Time of Grooming']||nowTimeStr())}"></div>
       </div>
-      <div class="f-visual">
-        <div class="mini-pill">Eyes: Normal</div>
-        <div class="mini-pill warn">Ears: Odor</div>
-        <div class="mini-pill">Nails: Trimmed</div>
-        <div class="mini-pill warn">Coat: Matting</div>
-        <div class="mini-pill">Skin: None</div>
+      <div class="row">
+        <div class="field"><label>Breed</label><input type="text" id="f_Breed" value="${esc(d['Breed'])}" placeholder="e.g. Poodle, Persian"></div>
+        <div class="field"><label>Weight (kg)</label><input type="number" step="0.1" id="f_Weight" value="${esc(d['Weight (kg)'])}"></div>
       </div>
+      <div class="field"><label>Gender</label>${pillGroup(GENDER, d['Gender'])}</div>
     </div>
 
-    <div class="feature-row reverse">
-      <div>
-        <h3>Package balances that never lose the thread</h3>
-        <p>Every top-up and every session drawn is logged in order, shared correctly across an owner's multiple dogs. No more guessing what's left, and no more double-charging.</p>
+    <div class="section">
+      <div class="section-title"><span class="num">02</span><h2>Pre-Assessment</h2></div>
+      ${PRE_ASSESSMENT.map(cat=>`
+        <div class="field">
+          <label>${esc(cat.label)}</label>
+          ${pillGroup(cat, d[cat.key])}
+          <div class="assess-note"><input type="text" id="f_${esc(cat.key)}Notes" placeholder="Notes (optional)" value="${esc(d[cat.key+' Notes'])}"></div>
+        </div>`).join('')}
+      <div class="field"><label>Mats</label>${pillGroup(MATS, d['Mats'])}</div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="num">03</span><h2>Service &amp; Behavior</h2></div>
+      <div class="field"><label>Service Required</label>${multiPillGroup(SERVICE, d['Service Required'])}
+        ${parseMultiValue(d['Service Required']).includes('Other') ? `<div class="assess-note"><input type="text" id="f_ServiceNotes" placeholder="Describe service" value="${esc(d['Service Notes'])}"></div>` : ''}
       </div>
-      <div class="f-visual">
-        <div class="mini-table-head">Package Trail — Alex Lee</div>
-        <div class="mini-row"><span>Top Up</span><span style="color:var(--sage);font-weight:700;">+500.00</span></div>
-        <div class="mini-row"><span>Used — Coco</span><span style="color:var(--clay);">−80.00</span></div>
-        <div class="mini-row"><span>Used — Milo</span><span style="color:var(--clay);">−90.00</span></div>
-        <div class="mini-row"><span><strong>Balance</strong></span><span><strong>330.00</strong></span></div>
+      <div class="field">
+        <label>Pricing</label>
+        <div class="row3">
+          <div class="field" style="margin-bottom:0;">
+            <label>Base Price (SGD)</label>
+            <input type="number" min="0" step="0.01" id="f_BasePrice" value="${esc(d['Base Price (SGD)'] || d['Charges (SGD)'] || '')}" placeholder="e.g. 80.00">
+          </div>
+          <div class="field" style="margin-bottom:0;">
+            <label>Discount (%)</label>
+            <input type="number" min="0" max="100" step="0.01" id="f_Discount" value="${esc(d['Discount (%)'] || '')}" placeholder="e.g. 15">
+            <div class="pill-group" style="margin-top:8px;gap:5px;">
+              <button type="button" class="pill discount-preset" data-discount="0">No discount</button>
+              <button type="button" class="pill discount-preset" data-discount="10">10%</button>
+              <button type="button" class="pill discount-preset" data-discount="15">15%</button>
+              <button type="button" class="pill discount-preset" data-discount="20">20%</button>
+            </div>
+          </div>
+          <div class="field" style="margin-bottom:0;">
+            <label>Final Charges (SGD)</label>
+            <input type="number" step="0.01" id="f_ChargesFinal" value="${esc(d['Charges (SGD)'])}" placeholder="0.00" readonly>
+          </div>
+        </div>
+        <div class="field" style="margin-top:10px;">
+          <label>Discount Notes (e.g., "First time client", "Referral", "Package deal")</label>
+          <input type="text" id="f_DiscountNotes" value="${esc(d['Discount Notes'] || '')}" placeholder="Why was the discount applied?">
+        </div>
+        <div id="priceCalculation" style="margin-top:10px;font-size:12.5px;color:var(--ink-soft);"></div>
+        <div id="packageBalanceWarning"></div>
       </div>
-    </div>
-
-    <div class="feature-row">
-      <div>
-        <h3>A record worth handing to the owner</h3>
-        <p>Export a clean, one-page PDF after every groom — photos, notes, and charges included. It reads like something from a real clinic, not a scribbled receipt.</p>
+      <div class="field"><label>Temperament &amp; Behavior During Grooming</label>${multiPillGroup(TEMPERAMENT, d['Temperament'])}
+        ${parseMultiValue(d['Temperament']).includes('Other') ? `<div class="assess-note"><input type="text" id="f_TemperamentNotes" placeholder="Describe behavior" value="${esc(d['Temperament Notes'])}"></div>` : ''}
       </div>
-      <div class="f-visual">
-        <div class="mini-table-head">Grooming Record — Coco</div>
-        <div class="mini-row"><span>Service</span><span>Bath &amp; Fluff</span></div>
-        <div class="mini-row"><span>Shampoo</span><span>Herbal Whitening</span></div>
-        <div class="mini-row"><span>Photos</span><span>2 attached</span></div>
-        <div class="mini-row"><span><strong>Total</strong></span><span><strong>80.00</strong></span></div>
+      <div class="field"><label>Specific Request / Style Notes</label><textarea id="f_StyleNotes" placeholder="e.g. Teddy bear face trim, short body 4mm...">${esc(d['Style Notes'])}</textarea></div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="num">04</span><h2>Shampoo Used</h2></div>
+      <div id="shampooOptions">
+        ${SHAMPOOS.map(s=>`
+          <div class="shampoo-option ${parseMultiValue(d['Shampoo Used']).includes(s.name)?'selected':''}" data-value="${esc(s.name)}">
+            <div class="name">${esc(s.name)}</div>
+            ${s.desc ? `<div class="desc">${esc(s.desc)}</div>` : ''}
+          </div>`).join('')}
       </div>
+      ${parseMultiValue(d['Shampoo Used']).includes('Other') ? `<div class="assess-note" style="margin-top:10px;"><input type="text" id="f_ShampooNotes" placeholder="Which product?" value="${esc(d['Shampoo Notes'])}"></div>` : ''}
     </div>
 
-    <div class="feature-row reverse">
-      <div>
-        <h3>Revenue that separates real money from moving numbers</h3>
-        <p>Gross charges, discounts given, and net received — split out by month and by customer, so a package top-up from last month doesn't quietly inflate what you think you made this week.</p>
-      </div>
-      <div class="f-visual">
-        <div class="mini-row"><span>Gross Charges</span><span>1,400.00</span></div>
-        <div class="mini-row"><span>Discounts Given</span><span style="color:var(--clay);">−400.00</span></div>
-        <div class="mini-row"><span><strong>Net Received</strong></span><span style="color:var(--sage);"><strong>1,000.00</strong></span></div>
-      </div>
+    <div class="section">
+      <div class="section-title"><span class="num">05</span><h2>Additional Notes</h2></div>
+      <div class="field"><textarea id="f_AdditionalNotes" placeholder="Anything else worth remembering for next time...">${esc(d['Additional Notes'])}</textarea></div>
     </div>
-  </div>
-</section>
 
-<section>
-  <div class="wrap">
-    <div class="section-head">
-      <div class="eyebrow">What it's actually for</div>
-      <h2>Fewer arguments. More trust. A number you can believe.</h2>
+    <div class="form-actions">
+      <button class="btn secondary" id="cancelFormBtn">Cancel</button>
+      <button class="btn" id="saveFormBtn">${isEdit ? 'Save Changes' : 'Save Record'}</button>
     </div>
-    <div class="outcomes">
-      <div class="outcome"><p>Fewer arguments about package balances — there's a paper trail either of you can point to.</p></div>
-      <div class="outcome"><p>A more professional handoff to every customer, without any extra typing on your end.</p></div>
-      <div class="outcome"><p>An honest read on what you made this month, not just what a spreadsheet column adds up to.</p></div>
-      <div class="outcome"><p>Nothing to lose when you switch phones or laptops — it's your own Sheet, not an app tied to one device.</p></div>
-    </div>
-  </div>
-</section>
+  </div>`;
+  return html;
+}
 
-<section class="alt">
-  <div class="wrap">
-    <div class="section-head" style="margin-bottom:36px;">
-      <div class="eyebrow">Runs on what you already trust</div>
-      <h2>Google Sheets. Your account. No new bill.</h2>
-    </div>
-    <div class="trust">
-      <div class="trust-item"><div class="label">Your data, your Sheet</div><p>Everything lives in a Google Sheet you own — not locked inside someone else's platform.</p></div>
-      <div class="trust-item"><div class="label">No monthly fee to Google</div><p>Runs on the free tier of Google Sheets and Apps Script — there's no hosting bill sitting underneath this.</p></div>
-      <div class="trust-item"><div class="label">Works from your phone</div><p>Add it to your home screen and log a groom right at the table, the same night it happens.</p></div>
-    </div>
-  </div>
-</section>
+function calculatePrice(){
+  const baseEl = document.getElementById('f_BasePrice');
+  const discountEl = document.getElementById('f_Discount');
+  const chargesEl = document.getElementById('f_ChargesFinal');
+  const summaryEl = document.getElementById('priceCalculation');
+  if(!baseEl || !discountEl || !chargesEl) return;
 
-<section class="final-cta">
-  <div class="wrap">
-    <div class="eyebrow">See it for yourself</div>
-    <h2>Try it with real sample data — no sign-up needed.</h2>
-    <a class="btn-primary" href="demo.html">Try the live demo →</a>
-  </div>
-</section>
+  const base = parseFloat(baseEl.value) || 0;
+  let discount = parseFloat(discountEl.value) || 0;
+  discount = Math.min(100, Math.max(0, discount));
+  if(discountEl.value !== '') discountEl.value = discount;
 
-<section class="contact-section" style="padding-top:0;">
-  <div class="wrap">
-    <div class="eyebrow">Want one built for your own business?</div>
-    <h2 style="font-size:24px;margin-top:12px;">Message me on WhatsApp — happy to walk you through it.</h2>
-    <div class="qr-box">
-      <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=https%3A%2F%2Fwa.me%2F60126739328" alt="WhatsApp QR code" loading="lazy">
-      <div class="num">+60 12-673 9328</div>
-    </div>
-  </div>
-</section>
+  const discountAmount = base * discount / 100;
+  const finalPrice = Math.max(0, base - discountAmount);
+  chargesEl.value = baseEl.value === '' ? '' : finalPrice.toFixed(2);
 
-<footer>
-  <div class="wrap">
-    <div>Groom Log — built by a home-based groomer, for home-based groomers.</div>
-    <div>Sample data shown in the demo is illustrative only.</div>
-  </div>
-</footer>
+  if(summaryEl){
+    if(baseEl.value === ''){
+      summaryEl.textContent = 'Enter the Base Price (SGD) to calculate the final charge.';
+    }else if(discount > 0){
+      summaryEl.innerHTML = `${base.toFixed(2)} − ${discount.toFixed(2)}% discount (${discountAmount.toFixed(2)}) = <strong>${finalPrice.toFixed(2)}</strong>`;
+    }else{
+      summaryEl.innerHTML = `Final charge: <strong>${finalPrice.toFixed(2)}</strong>`;
+    }
+  }
 
+  const warningEl = document.getElementById('packageBalanceWarning');
+  if(warningEl){
+    const hasPkgBtn = document.querySelector('.package-toggle.selected[data-package="Yes"]');
+    const balanceEl = document.getElementById('f_PackageBalance');
+    const currentBalance = balanceEl ? (parseFloat(balanceEl.value) || 0) : 0;
+    if(hasPkgBtn && baseEl.value !== '' && currentBalance < finalPrice){
+      const shortBy = (finalPrice - currentBalance).toFixed(2);
+      const ownerEl = document.getElementById('f_OwnerName');
+      const ownerName = ownerEl ? (ownerEl.value || 'this owner') : 'this owner';
+      warningEl.innerHTML = `<div style="margin-top:10px;padding:10px 12px;background:var(--clay-soft);border:1px solid var(--clay);border-radius:var(--radius);color:var(--clay);font-size:12.5px;">
+        <strong>⚠ Insufficient package balance</strong> — short by ${shortBy}.
+        Current balance (${currentBalance.toFixed(2)}) won't fully cover this ${finalPrice.toFixed(2)} charge.
+        Either ask ${esc(ownerName)} to reload the package, or collect ${shortBy} from the customer separately.
+      </div>`;
+    } else {
+      warningEl.innerHTML = '';
+    }
+  }
+}
+
+function setupPricingHandlers(){
+  const baseEl = document.getElementById('f_BasePrice');
+  const discountEl = document.getElementById('f_Discount');
+  const balanceEl = document.getElementById('f_PackageBalance');
+  if(baseEl) baseEl.oninput = calculatePrice;
+  if(discountEl) discountEl.oninput = calculatePrice;
+  if(balanceEl) balanceEl.oninput = calculatePrice;
+
+  document.querySelectorAll('.discount-preset').forEach(btn=>{
+    btn.onclick = ()=>{
+      const discountEl = document.getElementById('f_Discount');
+      if(discountEl){
+        discountEl.value = btn.dataset.discount;
+        calculatePrice();
+      }
+    };
+  });
+  calculatePrice();
+}
+
+function setupPhotoUpload() {
+  const uploadArea = document.getElementById('photoUploadArea');
+  const fileInput = document.getElementById('photoInput');
+  
+  if (!uploadArea || !fileInput) return;
+  
+  uploadArea.onclick = () => {
+    if (!state.detailId) {
+      showToast('Please save the record first before uploading photos');
+      return;
+    }
+    
+    const r = state.records.find(x => x['Record ID'] === state.detailId);
+    const currentPhotos = (r && r['Photos']) ? r['Photos'].split(',').filter(Boolean) : [];
+    if (currentPhotos.length >= 5) {
+      showToast('Maximum 5 photos allowed');
+      return;
+    }
+    
+    fileInput.click();
+  };
+  
+  fileInput.onchange = async () => {
+    if (fileInput.files.length === 0) return;
+    
+    if (!state.detailId) {
+      showToast('Please save the record first');
+      fileInput.value = '';
+      return;
+    }
+    
+    const r = state.records.find(x => x['Record ID'] === state.detailId);
+    const currentPhotos = (r && r['Photos']) ? r['Photos'].split(',').filter(Boolean) : [];
+    const remainingSlots = 5 - currentPhotos.length;
+    
+    if (fileInput.files.length > remainingSlots) {
+      showToast(`You can only upload ${remainingSlots} more photo${remainingSlots > 1 ? 's' : ''}`);
+      fileInput.value = '';
+      return;
+    }
+    
+    const files = Array.from(fileInput.files);
+    
+    uploadArea.classList.add('uploading');
+    showToast(`Uploading ${files.length} photo${files.length > 1 ? 's' : ''}...`);
+    
+    try {
+      const result = await uploadPhotos(state.detailId, files);
+      if (result.success) {
+        showToast('Photos uploaded successfully!');
+        await refreshRecords();
+        render();
+      } else {
+        showToast('Upload failed: ' + result.error);
+      }
+    } catch (err) {
+      showToast('Upload failed. Please try again.');
+      console.error(err);
+    }
+    
+    uploadArea.classList.remove('uploading');
+    fileInput.value = '';
+  };
+  
+  uploadArea.ondragover = (e) => {
+    e.preventDefault();
+    uploadArea.classList.add('dragover');
+  };
+  
+  uploadArea.ondragleave = () => {
+    uploadArea.classList.remove('dragover');
+  };
+  
+  uploadArea.ondrop = async (e) => {
+    e.preventDefault();
+    uploadArea.classList.remove('dragover');
+    
+    if (e.dataTransfer.files.length > 0) {
+      if (!state.detailId) {
+        showToast('Please save the record first before uploading photos');
+        return;
+      }
+      fileInput.files = e.dataTransfer.files;
+      fileInput.onchange();
+    }
+  };
+  
+  document.querySelectorAll('.remove-btn').forEach(btn => {
+    btn.onclick = async (e) => {
+      e.stopPropagation();
+      const url = btn.dataset.url;
+      if (!confirm('Remove this photo?')) return;
+      
+      if (!state.detailId) {
+        showToast('Please save the record first');
+        return;
+      }
+      
+      const r = state.records.find(x => x['Record ID'] === state.detailId);
+      const currentPhotos = (r && r['Photos']) ? r['Photos'].split(',').filter(Boolean) : [];
+      const updatedPhotos = currentPhotos.filter(u => u !== url);
+      
+      await apiUpdate(state.detailId, { 'Photos': updatedPhotos.join(',') });
+      showToast('Photo removed');
+      await refreshRecords();
+      render();
+    };
+  });
+}
+
+function getOwnerPackageBalance(ownerName) {
+  if (!ownerName) return Promise.resolve(null);
+  const target = String(ownerName).trim().toLowerCase();
+  // Same logic as the real backend's getOwnerPackageInfo: most recent
+  // package-tagged record for this owner, matched loosely on name.
+  const matches = demoRecords.filter(r =>
+    String(r['Owner Name'] || '').trim().toLowerCase() === target &&
+    r['Has Package'] === 'Yes'
+  );
+  if (matches.length === 0) return Promise.resolve(null);
+  const latest = matches[matches.length - 1];
+  return Promise.resolve({
+    success: true,
+    hasPackage: true,
+    balance: parseFloat(latest['Package Balance']) || 0,
+    packageType: latest['Package Type'] || ''
+  });
+}
+
+// Shared: looks up an owner's package and applies it to state.formData, then re-renders.
+// Used whenever the Owner Name becomes known — whether typed directly, or
+// filled in automatically from a matched Pet Name — so the package check
+// never depends on which field the groomer happens to fill in first.
+function refreshOwnerPackage(ownerName){
+  if(!ownerName) return;
+  getOwnerPackageBalance(ownerName).then(function(pkgInfo){
+    if(pkgInfo && pkgInfo.hasPackage){
+      state.formData['Has Package'] = 'Yes';
+      state.formData['Package Type'] = pkgInfo.packageType || '';
+      state.formData['Package Balance'] = pkgInfo.balance.toFixed(2);
+      showToast('Package balance loaded: ' + pkgInfo.balance.toFixed(2));
+    } else {
+      state.formData['Has Package'] = 'No';
+      state.formData['Package Balance'] = '';
+      state.formData['Package Type'] = '';
+    }
+    render();
+  });
+}
+
+function attachHandlers(){
+  // Tab navigation
+  document.querySelectorAll('nav.tabs button').forEach(b=>{
+    b.onclick = ()=>{
+      if(b.dataset.tab === 'form'){ state.formData = {}; state.editingId = null; state.tab = 'form'; }
+      else { state.tab = b.dataset.tab; }
+      render();
+    };
+  });
+
+  // New Record button
+  const newBtn = document.getElementById('newRecordBtn');
+  if(newBtn) newBtn.onclick = ()=>{ state.formData = {}; state.editingId = null; state.tab = 'form'; render(); };
+
+  // Search input handler
+  const searchInput = document.getElementById('searchInput');
+  if(searchInput){
+    searchInput.oninput = (e)=>{ 
+      state.search = e.target.value; 
+      const app = document.getElementById('app');
+      if(state.tab === 'list') {
+        app.innerHTML = renderList();
+        document.querySelectorAll('.record-tag').forEach(el=>{
+          el.onclick = ()=>{ state.detailId = el.dataset.id; state.tab = 'detail'; render(); };
+        });
+        const newSearch = document.getElementById('searchInput');
+        if(newSearch) {
+          newSearch.oninput = searchInput.oninput;
+          newSearch.focus();
+          newSearch.selectionStart = newSearch.selectionEnd = newSearch.value.length;
+        }
+        const newBtnRebind = document.getElementById('newRecordBtn');
+        if(newBtnRebind) newBtnRebind.onclick = ()=>{ state.formData = {}; state.editingId = null; state.tab = 'form'; render(); };
+      }
+    };
+  }
+
+  // Record tags (click to view detail)
+  document.querySelectorAll('.record-tag').forEach(el=>{
+    el.onclick = ()=>{ state.detailId = el.dataset.id; state.tab = 'detail'; render(); };
+  });
+
+  // Export PDF button
+  const exportBtn = document.getElementById('exportPdfBtn');
+  if(exportBtn) exportBtn.onclick = ()=>{
+    const r = state.records.find(x=>x['Record ID']===state.detailId);
+    if(r) exportRecordAsPdf(r);
+  };
+
+  // Share via WhatsApp button
+  const shareBtn = document.getElementById('shareWhatsAppBtn');
+  if(shareBtn) shareBtn.onclick = ()=>{
+    const r = state.records.find(x=>x['Record ID']===state.detailId);
+    if(r) shareRecordViaWhatsApp(r);
+  };
+
+  // Edit button
+  const editBtn = document.getElementById('editBtn');
+  if(editBtn) editBtn.onclick = ()=>{
+    const r = state.records.find(x=>x['Record ID']===state.detailId);
+    state.formData = Object.assign({}, r);
+    state.editingId = state.detailId;
+    state.tab = 'edit';
+    render();
+  };
+
+  // Delete button
+  const deleteBtn = document.getElementById('deleteBtn');
+  if(deleteBtn) deleteBtn.onclick = async ()=>{
+    if(!confirm('Delete this record? This cannot be undone.')) return;
+    try{
+      await apiDelete(state.detailId);
+      showToast('Record deleted');
+      state.tab = 'list';
+      await refreshRecords();
+    }catch(err){ showToast('Could not delete'); console.error(err); }
+  };
+
+  // Pill groups (Temperament and Service Required support multiple selections)
+  document.querySelectorAll('.pill-group').forEach(group=>{
+    group.querySelectorAll('.pill').forEach(pill=>{
+      pill.onclick = ()=>{
+        collectFormData();
+        const key = group.dataset.key;
+        if(key === 'Temperament' || key === 'Service Required'){
+          const current = parseMultiValue(state.formData[key]);
+          const value = pill.dataset.value;
+          const next = current.includes(value) ? current.filter(v=>v!==value) : [...current, value];
+          state.formData[key] = next.join(', ');
+        }else{
+          state.formData[key] = pill.dataset.value;
+        }
+        render();
+      };
+    });
+  });
+
+  // Package toggle
+  document.querySelectorAll('.package-toggle').forEach(btn=>{
+    btn.onclick = ()=>{
+      collectFormData();
+      const value = btn.dataset.package;
+      state.formData['Has Package'] = value;
+
+      if (value === 'Yes' && state.formData['Owner Name']) {
+        refreshOwnerPackage(state.formData['Owner Name']);
+      }
+      render();
+    };
+  });
+
+  // Credit Top Up handler
+const topUpBtn = document.getElementById('topUpBtn');
+const creditTopUpInput = document.getElementById('f_CreditTopUp');
+
+if (topUpBtn && creditTopUpInput) {
+  topUpBtn.onclick = async function() {
+    const ownerName = state.formData['Owner Name'];
+    if (!ownerName) {
+      showToast('Please enter an owner name first');
+      return;
+    }
+    
+    const topUpAmount = parseFloat(creditTopUpInput.value);
+    if (!topUpAmount || topUpAmount <= 0) {
+      showToast('Please enter a valid top-up amount');
+      return;
+    }
+    
+    const currentBalance = parseFloat(state.formData['Package Balance']) || 0;
+    const newBalance = currentBalance + topUpAmount;
+    const priorTopUp = parseFloat(state.formData['Package Top Up (SGD)']) || 0;
+    const newTopUpTotal = priorTopUp + topUpAmount;
+    
+    // Update the balance in the form
+    state.formData['Package Balance'] = newBalance.toFixed(2);
+    state.formData['Package Top Up (SGD)'] = newTopUpTotal.toFixed(2);
+    state.formData['Has Package'] = 'Yes'; // Auto-enable package
+    
+    // Save the update to the backend immediately
+    try {
+      // If there's an existing record, update it
+      if (state.editingId) {
+        await apiUpdate(state.editingId, { 
+          'Package Balance': newBalance.toFixed(2),
+          'Package Top Up (SGD)': newTopUpTotal.toFixed(2),
+          'Has Package': 'Yes'
+        });
+        showToast('Credit topped up! New balance: ' + newBalance.toFixed(2));
+      } else {
+        // For new records, just update the form
+        showToast('Credit added! Balance: ' + newBalance.toFixed(2) + ' (Save record to keep)');
+      }
+      
+      // Clear the top-up input
+      creditTopUpInput.value = '';
+      
+      // Refresh records and re-render
+      await refreshRecords();
+      render();
+    } catch (err) {
+      showToast('Failed to top up credit: ' + err.message);
+      console.error(err);
+    }
+  };
+}
+  
+  // Shampoo options
+  document.querySelectorAll('.shampoo-option').forEach(opt=>{
+    opt.onclick = ()=>{
+      collectFormData();
+      const current = parseMultiValue(state.formData['Shampoo Used']);
+      const value = opt.dataset.value;
+      const next = current.includes(value) ? current.filter(v=>v!==value) : [...current, value];
+      state.formData['Shampoo Used'] = next.join(', ');
+      render();
+    };
+  });
+
+  // Setup pricing handlers
+  setupPricingHandlers();
+  
+  // Setup photo upload
+  setupPhotoUpload();
+
+  // Cancel button
+  const cancelBtn = document.getElementById('cancelFormBtn');
+  if(cancelBtn) cancelBtn.onclick = function(){ 
+    state.tab = state.editingId ? 'detail' : 'list'; 
+    render(); 
+  };
+
+  // Dog name change - fill history, and check package if this reveals a new owner
+  const dogInput = document.getElementById('f_PetName');
+  if(dogInput) {
+    dogInput.onchange = function() {
+      collectFormData();
+      var history = findDogHistory(state.formData['Pet Name'], state.formData['Owner Name'], state.editingId);
+      if(history.length){
+        var latest = history[0];
+        var ownerWasBlank = !state.formData['Owner Name'];
+        if(ownerWasBlank) state.formData['Owner Name'] = latest['Owner Name'];
+        if(!state.formData['Breed']) state.formData['Breed'] = latest['Breed'];
+        if(!state.formData['Gender']) state.formData['Gender'] = latest['Gender'];
+        if(ownerWasBlank && state.formData['Owner Name']){
+          refreshOwnerPackage(state.formData['Owner Name']);
+        }
+      }
+      render();
+    };
+  }
+
+  // Owner name change - fetch package balance AND history
+  const ownerInput = document.getElementById('f_OwnerName');
+  if(ownerInput) {
+    ownerInput.onchange = function() {
+      collectFormData();
+      var ownerName = state.formData['Owner Name'];
+
+      if (ownerName) {
+        refreshOwnerPackage(ownerName);
+      }
+
+      var history = findDogHistory(state.formData['Pet Name'], state.formData['Owner Name'], state.editingId);
+      if(history.length){
+        var latest = history[0];
+        if(!state.formData['Breed']) state.formData['Breed'] = latest['Breed'];
+        if(!state.formData['Gender']) state.formData['Gender'] = latest['Gender'];
+      }
+      render();
+    };
+  }
+
+  // Save button
+  const saveBtn = document.getElementById('saveFormBtn');
+  if(saveBtn) saveBtn.onclick = async ()=>{
+    collectFormData();
+    
+    if(!state.formData['Pet Name']){ 
+      showToast('Please enter a dog name'); 
+      return; 
+    }
+    
+    // Calculate final charges
+    const basePrice = parseFloat(state.formData['Base Price (SGD)']) || 0;
+    const discount = parseFloat(state.formData['Discount (%)']) || 0;
+    const finalCharge = basePrice * (1 - discount / 100);
+    state.formData['Charges (SGD)'] = finalCharge.toFixed(2);
+    
+    // Check package balance if package is selected
+    if (state.formData['Has Package'] === 'Yes') {
+      const currentBalance = parseFloat(state.formData['Package Balance']) || 0;
+
+      if (currentBalance < finalCharge) {
+        const shortAmount = (finalCharge - currentBalance).toFixed(2);
+        state.formData['Package Balance'] = '0.00';
+        showToast('Package balance depleted — ' + shortAmount + ' to collect separately');
+      } else {
+        const newBalance = currentBalance - finalCharge;
+        state.formData['Package Balance'] = newBalance.toFixed(2);
+        showToast('Package balance updated: ' + newBalance.toFixed(2));
+      }
+    }
+    
+    saveBtn.textContent = 'Saving…'; 
+    saveBtn.disabled = true;
+    
+    try{
+      let result;
+      if(state.editingId){
+        await apiUpdate(state.editingId, state.formData);
+        showToast('Record updated');
+        state.detailId = state.editingId;
+      }else{
+        result = await apiCreate(state.formData);
+        state.editingId = result.id;
+        state.detailId = result.id;
+        showToast('Record created!');
+      }
+      
+      await refreshRecords();
+      state.tab = 'detail';
+      render();
+    }catch(err){
+      showToast('Could not save — check connection');
+      console.error(err);
+      saveBtn.textContent = state.editingId ? 'Save Changes' : 'Save Record'; 
+      saveBtn.disabled = false;
+    }
+  };
+
+  // ------------------------------
+  // REVENUE FILTER HANDLERS
+  // ------------------------------
+  const ownerFilter = document.getElementById('ownerFilter');
+  const monthFilter = document.getElementById('monthFilter');
+  const clearFiltersBtn = document.getElementById('clearFiltersBtn');
+
+  if (ownerFilter) {
+    ownerFilter.onchange = function() {
+      state.revenueFilter.owner = this.value;
+      render();
+    };
+  }
+
+  if (monthFilter) {
+    monthFilter.onchange = function() {
+      state.revenueFilter.month = this.value;
+      render();
+    };
+  }
+
+  if (clearFiltersBtn) {
+    clearFiltersBtn.onclick = function() {
+      state.revenueFilter.owner = 'All';
+      state.revenueFilter.month = 'All';
+      // Update the select elements to reflect the reset
+      const ownerSelect = document.getElementById('ownerFilter');
+      const monthSelect = document.getElementById('monthFilter');
+      if (ownerSelect) ownerSelect.value = 'All';
+      if (monthSelect) monthSelect.value = 'All';
+      render();
+    };
+  }
+
+  // ------------------------------
+  // REVENUE VIEW TOGGLE HANDLERS
+  // ------------------------------
+  const viewMonthlyBtn = document.getElementById('viewMonthlyBtn');
+  const viewOwnerBtn = document.getElementById('viewOwnerBtn');
+
+  if (viewMonthlyBtn) {
+    viewMonthlyBtn.onclick = function() {
+      state.revenueView = 'monthly';
+      render();
+    };
+  }
+
+  if (viewOwnerBtn) {
+    viewOwnerBtn.onclick = function() {
+      state.revenueView = 'owner';
+      render();
+    };
+  }
+
+  document.querySelectorAll('.owner-trail-toggle').forEach(function(row){
+    row.onclick = function(){
+      var owner = row.dataset.owner;
+      state.expandedOwnerTrail = (state.expandedOwnerTrail === owner) ? null : owner;
+      render();
+    };
+  });
+}
+
+function collectFormData(){
+  const d = state.formData;
+  const map = {
+    'Pet Name':'f_PetName',
+    'Owner Name':'f_OwnerName',
+    'Date of Grooming':'f_Date',
+    'Time of Grooming':'f_Time',
+    'Breed':'f_Breed',
+    'Weight (kg)':'f_Weight',
+    'Style Notes':'f_StyleNotes',
+    'Additional Notes':'f_AdditionalNotes',
+    'Service Notes':'f_ServiceNotes',
+    'Charges (SGD)':'f_ChargesFinal',
+    'Base Price (SGD)':'f_BasePrice',
+    'Discount (%)':'f_Discount',
+    'Discount Notes':'f_DiscountNotes',
+    'Temperament Notes':'f_TemperamentNotes',
+    'Shampoo Notes':'f_ShampooNotes',
+    'Package Type':'f_PackageType',
+    'Package Balance':'f_PackageBalance'
+    // Note: Credit Top Up is handled separately, not saved directly
+  };
+  PRE_ASSESSMENT.forEach(cat=>{ 
+    map[cat.key+' Notes'] = 'f_'+cat.key+'Notes';
+  });
+  Object.entries(map).forEach(([k,id])=>{
+    const el = document.getElementById(id);
+    if(el) d[k] = el.value;
+  });
+}
+
+initBranding();
+render();
+if(configured()) refreshRecords();
+</script>
 </body>
 </html>
