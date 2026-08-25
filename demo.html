@@ -1043,7 +1043,7 @@ function renderRevenue(){
         count: 0,
         packageBalance: 0,
         packageType: '',
-        packageTrail: [],
+        visitTrail: [],
         pets: {}
       };
     }
@@ -1053,6 +1053,7 @@ function renderRevenue(){
     var discountAmt = Math.max(0, gross - charge);
     var isPackage = r['Has Package'] === 'Yes';
     var topUpAmt = parseFloat(r['Package Top Up (SGD)']) || 0;
+    var service = r['Service Required'] || '';
     
     ownerMap[owner].gross += gross;
     ownerMap[owner].discount += discountAmt;
@@ -1065,21 +1066,23 @@ function renderRevenue(){
       ownerMap[owner].packageUsed += charge;
       if (topUpAmt > 0) {
         ownerMap[owner].packageToppedUp += topUpAmt;
-        ownerMap[owner].packageTrail.push({
+        ownerMap[owner].visitTrail.push({
           date: r['Date of Grooming'] || '',
           time: r['Time of Grooming'] || '',
           dogName: r['Pet Name'] || '',
           petType: r['Pet Type'] || '',
+          service: service,
           type: 'topup',
           amount: topUpAmt,
           balanceAfter: null
         });
       }
-      ownerMap[owner].packageTrail.push({
+      ownerMap[owner].visitTrail.push({
         date: r['Date of Grooming'] || '',
         time: r['Time of Grooming'] || '',
         dogName: r['Pet Name'] || '',
         petType: r['Pet Type'] || '',
+        service: service,
         type: 'usage',
         amount: charge,
         balanceAfter: parseFloat(r['Package Balance']) || 0,
@@ -1087,6 +1090,16 @@ function renderRevenue(){
       });
     } else {
       ownerMap[owner].cashPaid += charge;
+      ownerMap[owner].visitTrail.push({
+        date: r['Date of Grooming'] || '',
+        time: r['Time of Grooming'] || '',
+        dogName: r['Pet Name'] || '',
+        petType: r['Pet Type'] || '',
+        service: service,
+        type: 'visit',
+        amount: charge,
+        balanceAfter: null
+      });
     }
   });
 
@@ -1094,7 +1107,7 @@ function renderRevenue(){
   // from the most recent entry — not just whichever record happened to be
   // processed last, which previously gave a wrong (oldest-record) balance.
   for (var ownerMapKey in ownerMap) {
-    var trail = ownerMap[ownerMapKey].packageTrail;
+    var trail = ownerMap[ownerMapKey].visitTrail;
     trail.sort(function(a, b){ return (String(a.date) + String(a.time)).localeCompare(String(b.date) + String(b.time)); });
     var lastWithBalance = null;
     for (var ti = trail.length - 1; ti >= 0; ti--) {
@@ -1216,7 +1229,6 @@ function renderRevenue(){
         <table style="width:100%;border-collapse:collapse;font-size:13px;">
           <thead><tr style="border-bottom:1px solid var(--line);text-align:left;">
             <th style="padding:12px 16px;">Owner</th>
-            <th style="padding:12px 16px;">Pets</th>
             <th style="padding:12px 16px;text-align:right;">Grooms</th>
             <th style="padding:12px 16px;text-align:right;">Gross</th>
             <th style="padding:12px 16px;text-align:right;">Discounts</th>
@@ -1231,12 +1243,10 @@ function renderRevenue(){
 
       owners.forEach(function(owner) {
         var data = ownerMap[owner];
-        var hasTrail = data.packageTrail.length > 0;
+        var hasTrail = data.visitTrail.length > 0;
         var isExpanded = state.expandedOwnerTrail === owner;
-        var petsList = Object.keys(data.pets).map(esc).join(', ');
         html += `<tr class="${hasTrail ? 'owner-trail-toggle' : ''}" data-owner="${esc(owner)}" style="border-bottom:1px solid var(--line-soft);${hasTrail ? 'cursor:pointer;' : ''}">
           <td style="padding:12px 16px;font-weight:500;">${esc(data.displayName)}${hasTrail ? ' <span style="color:var(--ink-soft);font-size:11px;">' + (isExpanded ? '▾' : '▸') + ' trail</span>' : ''}</td>
-          <td style="padding:12px 16px;font-size:12px;color:var(--ink-soft);white-space:nowrap;">${petsList || '—'}</td>
           <td style="padding:12px 16px;text-align:right;">${data.count}</td>
           <td style="padding:12px 16px;text-align:right;">${data.gross.toFixed(2)}</td>
           <td style="padding:12px 16px;text-align:right;color:var(--clay);">${data.discount > 0 ? '-' + data.discount.toFixed(2) : '—'}</td>
@@ -1251,23 +1261,30 @@ function renderRevenue(){
         if(isExpanded && hasTrail){
           html += `<tr><td colspan="10" style="padding:0;background:var(--paper);">
             <div style="padding:14px 20px;">
-              <div style="font-size:11px;text-transform:uppercase;letter-spacing:.04em;color:var(--ink-soft);margin-bottom:8px;">Package Trail — ${esc(data.displayName)}</div>
+              <div style="font-size:11px;text-transform:uppercase;letter-spacing:.04em;color:var(--ink-soft);margin-bottom:8px;">Visit Trail — ${esc(data.displayName)}</div>
               <table style="width:100%;border-collapse:collapse;font-size:12.5px;">
                 <thead><tr style="text-align:left;color:var(--ink-soft);">
                   <th style="padding:6px 10px;font-weight:500;">Date</th>
                   <th style="padding:6px 10px;font-weight:500;">Event</th>
                   <th style="padding:6px 10px;font-weight:500;">Pet</th>
+                  <th style="padding:6px 10px;font-weight:500;">Service</th>
                   <th style="padding:6px 10px;font-weight:500;text-align:right;">Amount</th>
                   <th style="padding:6px 10px;font-weight:500;text-align:right;">Balance After</th>
                 </tr></thead>
                 <tbody>
-                  ${data.packageTrail.map(function(t){
+                  ${data.visitTrail.map(function(t){
                     var isTopup = t.type === 'topup';
+                    var isVisit = t.type === 'visit';
+                    var eventLabel = isTopup ? '↑ Top Up' : (isVisit ? '● Groomed' : '↓ Used');
+                    var eventColor = isTopup ? 'var(--sage)' : (isVisit ? 'var(--ink)' : 'var(--ink-soft)');
+                    var amountColor = isTopup ? 'var(--sage)' : 'var(--clay)';
+                    var amountSign = isTopup ? '+' : '-';
                     return `<tr style="border-top:1px solid var(--line-soft);">
                       <td style="padding:6px 10px;">${esc(t.date || '—')}${t.time ? ' ' + esc(t.time) : ''}</td>
-                      <td style="padding:6px 10px;color:${isTopup ? 'var(--sage)' : 'var(--ink-soft)'};">${isTopup ? '↑ Top Up' : '↓ Used'}</td>
+                      <td style="padding:6px 10px;color:${eventColor};">${eventLabel}</td>
                       <td style="padding:6px 10px;">${t.petType === 'Cat' ? '🐈' : (t.petType === 'Dog' ? '🐕' : '')} ${esc(t.dogName || '—')}</td>
-                      <td style="padding:6px 10px;text-align:right;color:${isTopup ? 'var(--sage)' : 'var(--clay)'};">${isTopup ? '+' : '-'}${t.amount.toFixed(2)}</td>
+                      <td style="padding:6px 10px;color:var(--ink-soft);">${esc(formatMultiValue(t.service)) || '—'}</td>
+                      <td style="padding:6px 10px;text-align:right;color:${amountColor};">${amountSign}${t.amount.toFixed(2)}</td>
                       <td style="padding:6px 10px;text-align:right;font-weight:500;">${t.balanceAfter !== null ? t.balanceAfter.toFixed(2) : '—'}</td>
                     </tr>`;
                   }).join('')}
