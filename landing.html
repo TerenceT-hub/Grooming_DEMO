@@ -142,9 +142,34 @@
 
   footer{ border-top:1px solid var(--line); padding:32px 0; font-size:12.5px; color:var(--ink-soft); }
   footer .wrap{ display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px; }
+
+  /* ---- WhatsApp contact ---- */
+  .wa-float{
+    position:fixed; right:22px; bottom:22px; z-index:50;
+    display:flex; align-items:center; gap:9px;
+    background:#25D366; color:#fff; text-decoration:none;
+    padding:13px 20px 13px 16px; border-radius:999px;
+    box-shadow:0 8px 24px rgba(37,211,102,0.35);
+    font-size:14px; font-weight:700;
+  }
+  .wa-float:hover{ opacity:.92; }
+  .wa-float svg{ width:20px; height:20px; flex-shrink:0; }
+  .contact-section{ text-align:center; }
+  .contact-section .qr-box{
+    display:inline-flex; flex-direction:column; align-items:center; gap:14px;
+    background:var(--card); border:1px solid var(--line); border-radius:var(--radius);
+    padding:28px 36px; margin-top:28px;
+  }
+  .contact-section .qr-box img{ width:150px; height:150px; border-radius:4px; }
+  .contact-section .qr-box .num{ font-family:'Shippori Mincho',serif; font-size:16px; }
 </style>
 </head>
 <body>
+
+<a class="wa-float" href="https://wa.me/60126739328?text=Hi!%20I%20saw%20the%20Groom%20Log%20demo%20and%20I%27d%20like%20to%20know%20more%20about%20getting%20one%20built%20for%20my%20business." target="_blank" rel="noopener">
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12c0 1.85.5 3.58 1.36 5.07L2 22l5.07-1.33C8.5 21.5 10.2 22 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2zm5.2 14.2c-.22.62-1.28 1.2-1.76 1.24-.45.05-1 .07-1.62-.1-.37-.1-.85-.27-1.46-.53-2.57-1.1-4.25-3.7-4.38-3.87-.13-.17-1.04-1.38-1.04-2.63 0-1.25.66-1.87.9-2.12.22-.25.5-.3.66-.3.17 0 .33 0 .48.01.15.01.36-.06.56.43.22.53.73 1.83.79 1.96.06.13.1.29.02.46-.08.17-.13.28-.25.43-.13.15-.27.34-.38.46-.13.13-.26.27-.11.53.15.26.66 1.09 1.42 1.77.98.87 1.8 1.14 2.06 1.27.26.13.41.11.56-.07.15-.17.63-.73.8-.98.17-.26.34-.21.56-.13.22.08 1.43.68 1.68.8.25.13.41.19.47.3.06.11.06.63-.16 1.25z"/></svg>
+  WhatsApp Me
+</a>
 
 <nav class="top">
   <div class="wrap">
@@ -169,7 +194,7 @@
         <div class="hole"></div>
         <div class="tag-top">
           <div class="dog-name">Coco</div>
-          <div class="owner-name">Janice Lim</div>
+          <div class="owner-name">Alex Lee</div>
         </div>
         <div class="flags">
           <span class="flag"><span class="dot"></span>Eyes: Normal</span>
@@ -230,7 +255,7 @@
         <p>Every top-up and every session drawn is logged in order, shared correctly across an owner's multiple dogs. No more guessing what's left, and no more double-charging.</p>
       </div>
       <div class="f-visual">
-        <div class="mini-table-head">Package Trail — Janice Lim</div>
+        <div class="mini-table-head">Package Trail — Alex Lee</div>
         <div class="mini-row"><span>Top Up</span><span style="color:var(--sage);font-weight:700;">+500.00</span></div>
         <div class="mini-row"><span>Used — Coco</span><span style="color:var(--clay);">−80.00</span></div>
         <div class="mini-row"><span>Used — Milo</span><span style="color:var(--clay);">−90.00</span></div>
@@ -300,6 +325,17 @@
     <div class="eyebrow">See it for yourself</div>
     <h2>Try it with real sample data — no sign-up needed.</h2>
     <a class="btn-primary" href="demo.html">Try the live demo →</a>
+  </div>
+</section>
+
+<section class="contact-section" style="padding-top:0;">
+  <div class="wrap">
+    <div class="eyebrow">Want one built for your own business?</div>
+    <h2 style="font-size:24px;margin-top:12px;">Message me on WhatsApp — happy to walk you through it.</h2>
+    <div class="qr-box">
+      <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=https%3A%2F%2Fwa.me%2F60126739328" alt="WhatsApp QR code" loading="lazy">
+      <div class="num">+60 12-673 9328</div>
+    </div>
   </div>
 </section>
 
