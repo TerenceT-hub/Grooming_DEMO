@@ -494,7 +494,7 @@
 <div class="topbar">
   <div class="topbar-inner">
     <div class="brand-mark" id="brandMark">
-      <div class="stamp">犬</div>
+      <div class="stamp">🐾</div>
       <div>
         <h1>Mollie Pet</h1>
         <div class="eyebrow">Customer &amp; care records — Live Demo, nothing here is saved</div>
@@ -541,14 +541,15 @@ const MATS = { key:'Mats', label:'Mats', options:[['None','ok'],['Mild','warn'],
 const SERVICE = { key:'Service Required', label:'Service Required', options:[['Full Grooming','neutral'],['Basic Grooming','neutral'],['Bath & Fluff','neutral'],['Other','neutral']] };
 const TEMPERAMENT = { key:'Temperament', label:'Temperament & Behavior During Grooming', options:[['Calm','ok'],['Playful','ok'],['Wriggly','warn'],['Anxious/Whining','warn'],['Nervous','warn'],['Aggressive','warn'],['Other','neutral']] };
 const GENDER = { key:'Gender', label:'Gender', options:[['Male','neutral'],['Female','neutral'],['Male (Neutered)','neutral'],['Female (Spayed)','neutral']] };
+const PET_TYPE = { key:'Pet Type', label:'Pet Type', options:[['Dog','neutral'],['Cat','neutral']] };
 
 const SHAMPOOS = [
-  { name:'Plush Puppy All Purpose Shampoo', desc:'Eye-popping shine and a lovely fresh coat' },
-  { name:'Plush Puppy Natural Conditioning Shampoo', desc:'Increases hydration while softening the coat' },
-  { name:'Plush Puppy Herbal Whitening Shampoo', desc:'Whitens whites and intensifies darker colours' },
-  { name:'Plush Puppy Deep Cleansing Shampoo', desc:'Deep cleaning and clarifying' },
-  { name:'Plush Puppy Body Building Shampoo', desc:'For a fuller and thicker appearance' },
-  { name:'Dermcare Malaseb Shampoo', desc:'Medicated shampoo for bacterial and fungal skin infections' },
+  { name:'All-Purpose Shampoo', desc:'Everyday cleaning with a healthy shine' },
+  { name:'Hypoallergenic / Sensitive Skin Shampoo', desc:'Gentle formula for sensitive or reactive skin' },
+  { name:'Whitening Shampoo', desc:'Brightens white and light-coloured coats' },
+  { name:'Deshedding Shampoo', desc:'Loosens and reduces excess shedding' },
+  { name:'Medicated / Anti-Fungal Shampoo', desc:'For skin infections or fungal conditions' },
+  { name:'Kitten / Puppy-Safe Shampoo', desc:'Extra-gentle formula for young pets' },
   { name:'Own Product Provided', desc:'Client supplied their own shampoo/product' },
   { name:'Other', desc:'' },
 ];
@@ -557,62 +558,78 @@ const SHAMPOOS = [
 // Everything below lives only in the browser's memory for this session —
 // nothing is saved anywhere, and refreshing the page resets it back to this.
 let demoRecords = [
-  { 'Record ID':'demo-1', 'Dog Name':'Mochi', 'Owner Name':'Sarah Tan', 'Date of Grooming':'2026-08-05', 'Time of Grooming':'10:00',
-    'Breed':'Poodle', 'Gender':'Female', 'Weight (kg)':'6.5',
+  { 'Record ID':'demo-1', 'Pet Name':'Mochi', 'Owner Name':'Sarah Tan', 'Date of Grooming':'2026-08-05', 'Time of Grooming':'10:00',
+    'Pet Type':'Dog', 'Breed':'Poodle', 'Gender':'Female', 'Weight (kg)':'6.5',
     'Eyes':'Normal','Ears':'Clean','Oral':'Normal','Anal':'Normal','Nail':'Overgrown','Nail Notes':'Trimmed back to a comfortable length',
     'Skin':'None','Coat':'Normal','Mats':'None',
     'Service Required':'Full Grooming','Temperament':'Calm, Playful','Style Notes':'Teddy bear face trim, short body 4mm',
-    'Shampoo Used':'Plush Puppy Natural Conditioning Shampoo','Additional Notes':'Loves belly rubs, very easy groom.',
+    'Shampoo Used':'Hypoallergenic / Sensitive Skin Shampoo','Additional Notes':'Loves belly rubs, very easy groom.',
     'Base Price (SGD)':'80','Discount (%)':'','Charges (SGD)':'80','Has Package':'No',
     'Photos':'https://placedog.net/500/500?id=10,https://placedog.net/500/500?id=22' },
 
-  { 'Record ID':'demo-2', 'Dog Name':'Bruno', 'Owner Name':'Sarah Tan', 'Date of Grooming':'2026-08-12', 'Time of Grooming':'14:30',
-    'Breed':'Shih Tzu', 'Gender':'Male (Neutered)', 'Weight (kg)':'7.2',
+  { 'Record ID':'demo-2', 'Pet Name':'Bruno', 'Owner Name':'Sarah Tan', 'Date of Grooming':'2026-08-12', 'Time of Grooming':'14:30',
+    'Pet Type':'Dog', 'Breed':'Shih Tzu', 'Gender':'Male (Neutered)', 'Weight (kg)':'7.2',
     'Eyes':'Redness','Eyes Notes':'Slight tear staining, monitor next visit','Ears':'Dirty','Ears Notes':'Cleaned thoroughly',
     'Oral':'Plaque/Tartar','Anal':'Normal','Nail':'Normal','Skin':'None','Coat':'Matting','Coat Notes':'Mild matting behind the ears','Mats':'Mild',
     'Service Required':'Full Grooming','Temperament':'Anxious/Whining','Temperament Notes':'Settled after the first 10 minutes',
-    'Style Notes':'Puppy cut, 6mm all over','Shampoo Used':'Dermcare Malaseb Shampoo',
+    'Style Notes':'Puppy cut, 6mm all over','Shampoo Used':'Medicated / Anti-Fungal Shampoo',
     'Base Price (SGD)':'75','Discount (%)':'','Charges (SGD)':'75','Has Package':'No' },
 
-  { 'Record ID':'demo-3', 'Dog Name':'Coco', 'Owner Name':'Alex Lee', 'Date of Grooming':'2026-08-01', 'Time of Grooming':'09:15',
-    'Breed':'Maltese', 'Gender':'Female (Spayed)', 'Weight (kg)':'3.8',
+  { 'Record ID':'demo-3', 'Pet Name':'Coco', 'Owner Name':'Alex Lee', 'Date of Grooming':'2026-08-01', 'Time of Grooming':'09:15',
+    'Pet Type':'Dog', 'Breed':'Maltese', 'Gender':'Female (Spayed)', 'Weight (kg)':'3.8',
     'Eyes':'Normal','Ears':'Clean','Oral':'Normal','Anal':'Normal','Nail':'Normal','Skin':'None','Coat':'Normal','Mats':'None',
     'Service Required':'Bath & Fluff','Temperament':'Calm','Style Notes':'Just a wash and blow-dry, keep coat long',
-    'Shampoo Used':'Plush Puppy Herbal Whitening Shampoo',
+    'Shampoo Used':'Whitening Shampoo',
     'Base Price (SGD)':'500','Discount (%)':'','Charges (SGD)':'0','Has Package':'Yes','Package Type':'5-Session Package',
     'Package Balance':'500','Package Top Up (SGD)':'500' },
 
-  { 'Record ID':'demo-4', 'Dog Name':'Coco', 'Owner Name':'Alex Lee', 'Date of Grooming':'2026-08-09', 'Time of Grooming':'09:30',
-    'Breed':'Maltese', 'Gender':'Female (Spayed)', 'Weight (kg)':'3.8',
+  { 'Record ID':'demo-4', 'Pet Name':'Coco', 'Owner Name':'Alex Lee', 'Date of Grooming':'2026-08-09', 'Time of Grooming':'09:30',
+    'Pet Type':'Dog', 'Breed':'Maltese', 'Gender':'Female (Spayed)', 'Weight (kg)':'3.8',
     'Eyes':'Normal','Ears':'Clean','Oral':'Normal','Anal':'Normal','Nail':'Normal','Skin':'None','Coat':'Normal','Mats':'None',
     'Service Required':'Bath & Fluff','Temperament':'Calm','Style Notes':'Same as usual',
-    'Shampoo Used':'Plush Puppy Herbal Whitening Shampoo',
+    'Shampoo Used':'Whitening Shampoo',
     'Base Price (SGD)':'80','Discount (%)':'','Charges (SGD)':'80','Has Package':'Yes','Package Type':'5-Session Package','Package Balance':'420' },
 
-  { 'Record ID':'demo-5', 'Dog Name':'Milo', 'Owner Name':'Alex Lee', 'Date of Grooming':'2026-08-16', 'Time of Grooming':'11:00',
-    'Breed':'Toy Poodle', 'Gender':'Male', 'Weight (kg)':'4.1',
+  { 'Record ID':'demo-5', 'Pet Name':'Milo', 'Owner Name':'Alex Lee', 'Date of Grooming':'2026-08-16', 'Time of Grooming':'11:00',
+    'Pet Type':'Dog', 'Breed':'Toy Poodle', 'Gender':'Male', 'Weight (kg)':'4.1',
     'Eyes':'Normal','Ears':'Odor','Ears Notes':'Slight yeasty smell, recommend vet check if it continues','Oral':'Normal','Anal':'Normal',
     'Nail':'Normal','Skin':'None','Coat':'Normal','Mats':'None',
     'Service Required':'Full Grooming','Temperament':'Playful','Style Notes':'Teddy bear trim',
-    'Shampoo Used':'Plush Puppy All Purpose Shampoo',
+    'Shampoo Used':'All-Purpose Shampoo',
     'Base Price (SGD)':'90','Discount (%)':'','Charges (SGD)':'90','Has Package':'Yes','Package Type':'5-Session Package','Package Balance':'330' },
 
-  { 'Record ID':'demo-6', 'Dog Name':'Rocky', 'Owner Name':'Wei Ming', 'Date of Grooming':'2026-08-14', 'Time of Grooming':'16:00',
-    'Breed':'Schnauzer', 'Gender':'Male (Neutered)', 'Weight (kg)':'9.0',
+  { 'Record ID':'demo-6', 'Pet Name':'Rocky', 'Owner Name':'Wei Ming', 'Date of Grooming':'2026-08-14', 'Time of Grooming':'16:00',
+    'Pet Type':'Dog', 'Breed':'Schnauzer', 'Gender':'Male (Neutered)', 'Weight (kg)':'9.0',
     'Eyes':'Normal','Ears':'Clean','Oral':'Bad Breath','Anal':'Redness/Irritation','Anal Notes':'Mild, expressed glands',
     'Nail':'Overgrown','Skin':'Redness/Irritation','Skin Notes':'Slight irritation on belly, used gentle shampoo',
     'Coat':'Excessive Shedding','Mats':'Moderate',
     'Service Required':'Full Grooming, Bath & Fluff','Temperament':'Nervous, Wriggly','Style Notes':'Schnauzer cut, standard length',
-    'Shampoo Used':'Plush Puppy Deep Cleansing Shampoo','Additional Notes':'First visit — a bit nervous, took extra time to settle him.',
+    'Shampoo Used':'All-Purpose Shampoo','Additional Notes':'First visit — a bit nervous, took extra time to settle him.',
     'Base Price (SGD)':'100','Discount (%)':'10','Charges (SGD)':'90','Has Package':'No' },
 
-  { 'Record ID':'demo-7', 'Dog Name':'Bella', 'Owner Name':'Wei Ming', 'Date of Grooming':'2026-08-20', 'Time of Grooming':'13:00',
-    'Breed':'Bichon Frise', 'Gender':'Female (Spayed)', 'Weight (kg)':'5.5',
+  { 'Record ID':'demo-7', 'Pet Name':'Bella', 'Owner Name':'Wei Ming', 'Date of Grooming':'2026-08-20', 'Time of Grooming':'13:00',
+    'Pet Type':'Dog', 'Breed':'Bichon Frise', 'Gender':'Female (Spayed)', 'Weight (kg)':'5.5',
     'Eyes':'Discharge','Eyes Notes':'Some discharge, cleaned and monitored','Ears':'Clean','Oral':'Normal','Anal':'Normal',
     'Nail':'Normal','Skin':'None','Coat':'Normal','Mats':'None',
     'Service Required':'Full Grooming','Temperament':'Calm','Style Notes':'Round fluffy face, full body trim',
-    'Shampoo Used':'Plush Puppy Body Building Shampoo',
+    'Shampoo Used':'Deshedding Shampoo',
     'Base Price (SGD)':'85','Discount (%)':'','Charges (SGD)':'85','Has Package':'No' },
+
+  { 'Record ID':'demo-8', 'Pet Name':'Whiskers', 'Owner Name':'Alex Lee', 'Date of Grooming':'2026-08-18', 'Time of Grooming':'15:30',
+    'Pet Type':'Cat', 'Breed':'British Shorthair', 'Gender':'Male (Neutered)', 'Weight (kg)':'4.5',
+    'Eyes':'Normal','Ears':'Clean','Oral':'Normal','Anal':'Normal','Nail':'Overgrown','Nail Notes':'Trimmed all four paws',
+    'Skin':'None','Coat':'Matting','Coat Notes':'Mild matting near the hind legs','Mats':'Mild',
+    'Service Required':'Bath & Fluff','Temperament':'Nervous','Temperament Notes':'First groom, kept sessions short and calm',
+    'Shampoo Used':'Kitten / Puppy-Safe Shampoo','Additional Notes':'Not a fan of the dryer — used a lower setting.',
+    'Base Price (SGD)':'90','Discount (%)':'','Charges (SGD)':'90','Has Package':'Yes','Package Type':'5-Session Package','Package Balance':'240' },
+
+  { 'Record ID':'demo-9', 'Pet Name':'Simba', 'Owner Name':'Priya Nair', 'Date of Grooming':'2026-08-21', 'Time of Grooming':'12:00',
+    'Pet Type':'Cat', 'Breed':'Persian', 'Gender':'Male', 'Weight (kg)':'5.0',
+    'Eyes':'Discharge','Eyes Notes':'Common for the breed, cleaned gently','Ears':'Clean','Oral':'Normal','Anal':'Normal',
+    'Nail':'Overgrown','Nail Notes':'Trimmed and filed','Skin':'None','Coat':'Matting','Coat Notes':'Moderate matting under the arms','Mats':'Moderate',
+    'Service Required':'Full Grooming','Temperament':'Calm','Style Notes':'Lion cut, keep face and tail fluffy',
+    'Shampoo Used':'Whitening Shampoo','Additional Notes':'Owner requested extra care around the eyes.',
+    'Base Price (SGD)':'110','Discount (%)':'','Charges (SGD)':'110','Has Package':'No' },
 ];
 
 /* ================================================================ */
@@ -757,7 +774,7 @@ function configBanner(){
   </div>`;
 }
 function emptyConfigState(){
-  return `<div class="card empty-state"><div class="stamp">犬</div>
+  return `<div class="card empty-state"><div class="stamp">🐾</div>
     <div style="font-family:'Shippori Mincho',serif;font-size:16px;margin-bottom:6px;">Not connected yet</div>
     <div>This page will list and log grooming records once it's linked to your Google Sheet.</div>
   </div>`;
@@ -768,14 +785,14 @@ function renderList(){
   const q = state.search.trim().toLowerCase();
   const filtered = state.records.filter(r=>{
     if(!q) return true;
-    return (String(r['Dog Name']||'').toLowerCase().includes(q)) || (String(r['Owner Name']||'').toLowerCase().includes(q)) || (String(r['Breed']||'').toLowerCase().includes(q));
+    return (String(r['Pet Name']||'').toLowerCase().includes(q)) || (String(r['Owner Name']||'').toLowerCase().includes(q)) || (String(r['Breed']||'').toLowerCase().includes(q));
   });
   let html = `<div class="list-toolbar">
-    <div class="search-box"><input id="searchInput" type="text" placeholder="Search by dog, owner, or breed…" value="${esc(state.search)}"></div>
+    <div class="search-box"><input id="searchInput" type="text" placeholder="Search by pet, owner, or breed…" value="${esc(state.search)}"></div>
     <button class="btn" id="newRecordBtn">+ New Record</button>
   </div>`;
   if(filtered.length === 0){
-    html += `<div class="card empty-state"><div class="stamp">犬</div>
+    html += `<div class="card empty-state"><div class="stamp">🐾</div>
       <div style="font-family:'Shippori Mincho',serif;font-size:16px;margin-bottom:6px;">${state.records.length===0 ? 'No records yet' : 'No matches'}</div>
       <div>${state.records.length===0 ? 'Log your first grooming visit to get started.' : 'Try a different search.'}</div>
     </div>`;
@@ -792,8 +809,8 @@ function renderList(){
     return `<div class="record-tag" data-id="${esc(r['Record ID'])}">
       <span class="punch"></span>
       <div class="info">
-        <div class="dog">${esc(r['Dog Name']||'Unnamed')} <span style="color:var(--ink-soft);font-weight:400;">— ${esc(r['Owner Name']||'')}</span></div>
-        <div class="meta">${esc(r['Breed']||'—')} · ${esc(r['Service Required']||'—')}</div>
+        <div class="dog">${esc(r['Pet Name']||'Unnamed')} <span style="color:var(--ink-soft);font-weight:400;">— ${esc(r['Owner Name']||'')}</span></div>
+        <div class="meta">${r['Pet Type'] ? esc(r['Pet Type']) + ' · ' : ''}${esc(r['Breed']||'—')} · ${esc(r['Service Required']||'—')}</div>
       </div>
       <div class="flags">${flagHtml}</div>
       <div class="date">${esc(r['Date of Grooming']||'')}${r['Time of Grooming'] ? `<br><span style="font-size:11px;">${esc(r['Time of Grooming'])}</span>` : ''}</div>
@@ -865,7 +882,7 @@ photos.forEach(function(url, index) {
   let html = `<div class="card">
     <div class="detail-header">
       <div>
-        <h2>${esc(r['Dog Name']||'Unnamed')}</h2>
+        <h2>${esc(r['Pet Name']||'Unnamed')}</h2>
         <div class="sub">${esc(r['Owner Name']||'')} · Groomed ${esc(r['Date of Grooming']||'—')}${r['Time of Grooming'] ? ' at ' + esc(r['Time of Grooming']) : ''}</div>
       </div>
       <div class="detail-actions">
@@ -876,6 +893,7 @@ photos.forEach(function(url, index) {
       </div>
     </div>
     <div class="detail-grid">
+      ${item('Pet Type', r['Pet Type'])}
       ${item('Breed', r['Breed'])}
       ${tagItem('Gender', 'Gender', GENDER.options)}
       ${item('Weight (kg)', r['Weight (kg)'])}
@@ -908,7 +926,7 @@ photos.forEach(function(url, index) {
       ${item('Additional Notes', r['Additional Notes'])}
     </div>
     ${(() => {
-      const history = findDogHistory(r['Dog Name'], r['Owner Name'], r['Record ID']);
+      const history = findDogHistory(r['Pet Name'], r['Owner Name'], r['Record ID']);
       if(history.length === 0) return '';
       return `<div class="section" style="padding-top:6px;">
         <div class="section-title"><span class="num">03</span><h2>Visit History</h2></div>
@@ -1046,7 +1064,7 @@ function renderRevenue(){
         ownerMap[owner].packageTrail.push({
           date: r['Date of Grooming'] || '',
           time: r['Time of Grooming'] || '',
-          dogName: r['Dog Name'] || '',
+          dogName: r['Pet Name'] || '',
           type: 'topup',
           amount: topUpAmt,
           balanceAfter: null
@@ -1055,7 +1073,7 @@ function renderRevenue(){
       ownerMap[owner].packageTrail.push({
         date: r['Date of Grooming'] || '',
         time: r['Time of Grooming'] || '',
-        dogName: r['Dog Name'] || '',
+        dogName: r['Pet Name'] || '',
         type: 'usage',
         amount: charge,
         balanceAfter: parseFloat(r['Package Balance']) || 0,
@@ -1121,7 +1139,7 @@ function renderRevenue(){
   // Monthly View
   if (state.revenueView === 'monthly') {
     if (grandCount === 0) {
-      html += `<div class="card empty-state"><div class="stamp">犬</div>
+      html += `<div class="card empty-state"><div class="stamp">🐾</div>
         <div style="font-family:'Shippori Mincho',serif;font-size:16px;margin-bottom:6px;">No records match the selected filters</div>
         <div>Try changing the Owner or Month filter above.</div>
       </div>`;
@@ -1182,7 +1200,7 @@ function renderRevenue(){
   // Owner View
   if (state.revenueView === 'owner') {
     if (owners.length === 0) {
-      html += `<div class="card empty-state"><div class="stamp">犬</div>
+      html += `<div class="card empty-state"><div class="stamp">🐾</div>
         <div style="font-family:'Shippori Mincho',serif;font-size:16px;margin-bottom:6px;">No customer data matches the selected filters</div>
         <div>Try changing the Owner or Month filter above.</div>
       </div>`;
@@ -1229,7 +1247,7 @@ function renderRevenue(){
                 <thead><tr style="text-align:left;color:var(--ink-soft);">
                   <th style="padding:6px 10px;font-weight:500;">Date</th>
                   <th style="padding:6px 10px;font-weight:500;">Event</th>
-                  <th style="padding:6px 10px;font-weight:500;">Dog</th>
+                  <th style="padding:6px 10px;font-weight:500;">Pet</th>
                   <th style="padding:6px 10px;font-weight:500;text-align:right;">Amount</th>
                   <th style="padding:6px 10px;font-weight:500;text-align:right;">Balance After</th>
                 </tr></thead>
@@ -1266,7 +1284,7 @@ function shareRecordViaWhatsApp(r){
   // PDF first (separately) still works for anyone who wants a saved file to
   // attach manually afterward.
   const lines = [];
-  lines.push(`*Grooming Record — ${r['Dog Name'] || 'Unnamed'}*`);
+  lines.push(`*Grooming Record — ${r['Pet Name'] || 'Unnamed'}*`);
   lines.push(`${r['Date of Grooming'] || ''}${r['Time of Grooming'] ? ' at ' + r['Time of Grooming'] : ''}`);
   lines.push('');
   if(r['Service Required']) lines.push(`Service: ${r['Service Required']}`);
@@ -1341,9 +1359,9 @@ photoHtml += '</div>';
       '<div class="biz">' + esc(BUSINESS_NAME) + '</div>' +
       '<div class="doc-title">Grooming Record<br>' + esc(r['Date of Grooming']||'') + (r['Time of Grooming'] ? ' ' + esc(r['Time of Grooming']) : '') + '</div>' +
     '</div>' +
-    '<h3>Dog &amp; Owner</h3>' +
+    '<h3>Pet &amp; Owner</h3>' +
     '<div class="p-grid">' +
-      row('Dog Name', r['Dog Name']) +
+      row('Pet Name', r['Pet Name']) +
       row('Owner Name', r['Owner Name']) +
       row('Breed', r['Breed']) +
       row('Gender', r['Gender']) +
@@ -1395,14 +1413,14 @@ function findDogHistory(dogName, ownerName, excludeId){
   if(!dn) return [];
   return state.records.filter(r=>{
     if(excludeId && r['Record ID']===excludeId) return false;
-    const rdn = String(r['Dog Name']||'').trim().toLowerCase();
+    const rdn = String(r['Pet Name']||'').trim().toLowerCase();
     const ron = String(r['Owner Name']||'').trim().toLowerCase();
     if(rdn !== dn) return false;
     if(on && ron !== on) return false;
     return true;
   }).sort((a,b)=> String(b['Date of Grooming']||'').localeCompare(String(a['Date of Grooming']||'')));
 }
-function uniqueDogNames(){ return [...new Set(state.records.map(r=>r['Dog Name']).filter(Boolean))]; }
+function uniqueDogNames(){ return [...new Set(state.records.map(r=>r['Pet Name']).filter(Boolean))]; }
 function uniqueOwnerNames(){ return [...new Set(state.records.map(r=>r['Owner Name']).filter(Boolean))]; }
 function renderVisitHistoryBox(dogName, ownerName){
   const history = findDogHistory(dogName, ownerName, state.editingId);
@@ -1488,14 +1506,15 @@ function renderForm(){
   const isEdit = state.tab === 'edit';
   let html = `<div class="card">
     <div class="section">
-      <div class="section-title"><span class="num">01</span><h2>Dog &amp; Owner</h2></div>
+      <div class="section-title"><span class="num">01</span><h2>Pet &amp; Owner</h2></div>
+      <div class="field"><label>Pet Type</label>${pillGroup(PET_TYPE, d['Pet Type'])}</div>
       <div class="row">
-        <div class="field"><label>Dog Name</label><input type="text" id="f_DogName" list="dogDatalist" value="${esc(d['Dog Name'])}" placeholder="e.g. Mochi"></div>
+        <div class="field"><label>Pet Name</label><input type="text" id="f_PetName" list="dogDatalist" value="${esc(d['Pet Name'])}" placeholder="e.g. Mochi"></div>
         <div class="field"><label>Owner Name</label><input type="text" id="f_OwnerName" list="ownerDatalist" value="${esc(d['Owner Name'])}" placeholder="e.g. Lim Wei"></div>
       </div>
       <datalist id="dogDatalist">${uniqueDogNames().map(n=>`<option value="${esc(n)}">`).join('')}</datalist>
       <datalist id="ownerDatalist">${uniqueOwnerNames().map(n=>`<option value="${esc(n)}">`).join('')}</datalist>
-      ${renderVisitHistoryBox(d['Dog Name'], d['Owner Name'])}
+      ${renderVisitHistoryBox(d['Pet Name'], d['Owner Name'])}
       
       <!-- PACKAGE SECTION -->
 <div class="field" style="border-top:1px solid var(--line-soft);padding-top:16px;margin-top:16px;">
@@ -1540,7 +1559,7 @@ function renderForm(){
         <div class="field"><label>Time of Grooming</label><input type="time" id="f_Time" value="${esc(d['Time of Grooming']||nowTimeStr())}"></div>
       </div>
       <div class="row">
-        <div class="field"><label>Breed</label><input type="text" id="f_Breed" value="${esc(d['Breed'])}" placeholder="e.g. Poodle"></div>
+        <div class="field"><label>Breed</label><input type="text" id="f_Breed" value="${esc(d['Breed'])}" placeholder="e.g. Poodle, Persian"></div>
         <div class="field"><label>Weight (kg)</label><input type="number" step="0.1" id="f_Weight" value="${esc(d['Weight (kg)'])}"></div>
       </div>
       <div class="field"><label>Gender</label>${pillGroup(GENDER, d['Gender'])}</div>
@@ -1819,7 +1838,7 @@ function getOwnerPackageBalance(ownerName) {
 
 // Shared: looks up an owner's package and applies it to state.formData, then re-renders.
 // Used whenever the Owner Name becomes known — whether typed directly, or
-// filled in automatically from a matched Dog Name — so the package check
+// filled in automatically from a matched Pet Name — so the package check
 // never depends on which field the groomer happens to fill in first.
 function refreshOwnerPackage(ownerName){
   if(!ownerName) return;
@@ -2031,11 +2050,11 @@ if (topUpBtn && creditTopUpInput) {
   };
 
   // Dog name change - fill history, and check package if this reveals a new owner
-  const dogInput = document.getElementById('f_DogName');
+  const dogInput = document.getElementById('f_PetName');
   if(dogInput) {
     dogInput.onchange = function() {
       collectFormData();
-      var history = findDogHistory(state.formData['Dog Name'], state.formData['Owner Name'], state.editingId);
+      var history = findDogHistory(state.formData['Pet Name'], state.formData['Owner Name'], state.editingId);
       if(history.length){
         var latest = history[0];
         var ownerWasBlank = !state.formData['Owner Name'];
@@ -2061,7 +2080,7 @@ if (topUpBtn && creditTopUpInput) {
         refreshOwnerPackage(ownerName);
       }
 
-      var history = findDogHistory(state.formData['Dog Name'], state.formData['Owner Name'], state.editingId);
+      var history = findDogHistory(state.formData['Pet Name'], state.formData['Owner Name'], state.editingId);
       if(history.length){
         var latest = history[0];
         if(!state.formData['Breed']) state.formData['Breed'] = latest['Breed'];
@@ -2076,7 +2095,7 @@ if (topUpBtn && creditTopUpInput) {
   if(saveBtn) saveBtn.onclick = async ()=>{
     collectFormData();
     
-    if(!state.formData['Dog Name']){ 
+    if(!state.formData['Pet Name']){ 
       showToast('Please enter a dog name'); 
       return; 
     }
@@ -2195,7 +2214,7 @@ if (topUpBtn && creditTopUpInput) {
 function collectFormData(){
   const d = state.formData;
   const map = {
-    'Dog Name':'f_DogName',
+    'Pet Name':'f_PetName',
     'Owner Name':'f_OwnerName',
     'Date of Grooming':'f_Date',
     'Time of Grooming':'f_Time',
