@@ -513,6 +513,12 @@
 <div class="toast" id="toast"></div>
 <div id="printArea"></div>
 
+<a href="https://wa.me/60126739328?text=Hi!%20I%20tried%20the%20Groom%20Log%20demo%20and%20I%27d%20like%20to%20know%20more%20about%20getting%20one%20built%20for%20my%20business." target="_blank" rel="noopener"
+   style="position:fixed;right:20px;bottom:20px;z-index:200;display:flex;align-items:center;gap:8px;background:#25D366;color:#fff;text-decoration:none;padding:12px 18px 12px 14px;border-radius:999px;box-shadow:0 8px 24px rgba(37,211,102,0.35);font-family:'Zen Kaku Gothic New',sans-serif;font-size:13.5px;font-weight:700;">
+  <svg viewBox="0 0 24 24" fill="currentColor" style="width:18px;height:18px;flex-shrink:0;"><path d="M12 2C6.48 2 2 6.48 2 12c0 1.85.5 3.58 1.36 5.07L2 22l5.07-1.33C8.5 21.5 10.2 22 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2zm5.2 14.2c-.22.62-1.28 1.2-1.76 1.24-.45.05-1 .07-1.62-.1-.37-.1-.85-.27-1.46-.53-2.57-1.1-4.25-3.7-4.38-3.87-.13-.17-1.04-1.38-1.04-2.63 0-1.25.66-1.87.9-2.12.22-.25.5-.3.66-.3.17 0 .33 0 .48.01.15.01.36-.06.56.43.22.53.73 1.83.79 1.96.06.13.1.29.02.46-.08.17-.13.28-.25.43-.13.15-.27.34-.38.46-.13.13-.26.27-.11.53.15.26.66 1.09 1.42 1.77.98.87 1.8 1.14 2.06 1.27.26.13.41.11.56-.07.15-.17.63-.73.8-.98.17-.26.34-.21.56-.13.22.08 1.43.68 1.68.8.25.13.41.19.47.3.06.11.06.63-.16 1.25z"/></svg>
+  Interested? Chat with me
+</a>
+
 <script>
 /* ======================= CONFIGURATION ======================= */
 const APPS_SCRIPT_URL = ""; // not used in demo mode — everything runs in-memory
@@ -557,7 +563,8 @@ let demoRecords = [
     'Skin':'None','Coat':'Normal','Mats':'None',
     'Service Required':'Full Grooming','Temperament':'Calm, Playful','Style Notes':'Teddy bear face trim, short body 4mm',
     'Shampoo Used':'Plush Puppy Natural Conditioning Shampoo','Additional Notes':'Loves belly rubs, very easy groom.',
-    'Base Price (SGD)':'80','Discount (%)':'','Charges (SGD)':'80','Has Package':'No' },
+    'Base Price (SGD)':'80','Discount (%)':'','Charges (SGD)':'80','Has Package':'No',
+    'Photos':'https://placedog.net/500/500?id=10,https://placedog.net/500/500?id=22' },
 
   { 'Record ID':'demo-2', 'Dog Name':'Bruno', 'Owner Name':'Sarah Tan', 'Date of Grooming':'2026-08-12', 'Time of Grooming':'14:30',
     'Breed':'Shih Tzu', 'Gender':'Male (Neutered)', 'Weight (kg)':'7.2',
@@ -567,7 +574,7 @@ let demoRecords = [
     'Style Notes':'Puppy cut, 6mm all over','Shampoo Used':'Dermcare Malaseb Shampoo',
     'Base Price (SGD)':'75','Discount (%)':'','Charges (SGD)':'75','Has Package':'No' },
 
-  { 'Record ID':'demo-3', 'Dog Name':'Coco', 'Owner Name':'Janice Lim', 'Date of Grooming':'2026-08-01', 'Time of Grooming':'09:15',
+  { 'Record ID':'demo-3', 'Dog Name':'Coco', 'Owner Name':'Alex Lee', 'Date of Grooming':'2026-08-01', 'Time of Grooming':'09:15',
     'Breed':'Maltese', 'Gender':'Female (Spayed)', 'Weight (kg)':'3.8',
     'Eyes':'Normal','Ears':'Clean','Oral':'Normal','Anal':'Normal','Nail':'Normal','Skin':'None','Coat':'Normal','Mats':'None',
     'Service Required':'Bath & Fluff','Temperament':'Calm','Style Notes':'Just a wash and blow-dry, keep coat long',
@@ -575,14 +582,14 @@ let demoRecords = [
     'Base Price (SGD)':'500','Discount (%)':'','Charges (SGD)':'0','Has Package':'Yes','Package Type':'5-Session Package',
     'Package Balance':'500','Package Top Up (SGD)':'500' },
 
-  { 'Record ID':'demo-4', 'Dog Name':'Coco', 'Owner Name':'Janice Lim', 'Date of Grooming':'2026-08-09', 'Time of Grooming':'09:30',
+  { 'Record ID':'demo-4', 'Dog Name':'Coco', 'Owner Name':'Alex Lee', 'Date of Grooming':'2026-08-09', 'Time of Grooming':'09:30',
     'Breed':'Maltese', 'Gender':'Female (Spayed)', 'Weight (kg)':'3.8',
     'Eyes':'Normal','Ears':'Clean','Oral':'Normal','Anal':'Normal','Nail':'Normal','Skin':'None','Coat':'Normal','Mats':'None',
     'Service Required':'Bath & Fluff','Temperament':'Calm','Style Notes':'Same as usual',
     'Shampoo Used':'Plush Puppy Herbal Whitening Shampoo',
     'Base Price (SGD)':'80','Discount (%)':'','Charges (SGD)':'80','Has Package':'Yes','Package Type':'5-Session Package','Package Balance':'420' },
 
-  { 'Record ID':'demo-5', 'Dog Name':'Milo', 'Owner Name':'Janice Lim', 'Date of Grooming':'2026-08-16', 'Time of Grooming':'11:00',
+  { 'Record ID':'demo-5', 'Dog Name':'Milo', 'Owner Name':'Alex Lee', 'Date of Grooming':'2026-08-16', 'Time of Grooming':'11:00',
     'Breed':'Toy Poodle', 'Gender':'Male', 'Weight (kg)':'4.1',
     'Eyes':'Normal','Ears':'Odor','Ears Notes':'Slight yeasty smell, recommend vet check if it continues','Oral':'Normal','Anal':'Normal',
     'Nail':'Normal','Skin':'None','Coat':'Normal','Mats':'None',
@@ -863,6 +870,7 @@ photos.forEach(function(url, index) {
       </div>
       <div class="detail-actions">
         <button class="btn secondary" id="exportPdfBtn">Export as PDF</button>
+        <button class="btn secondary" id="shareWhatsAppBtn">Share via WhatsApp</button>
         <button class="btn secondary" id="editBtn">Edit</button>
         <button class="btn danger" id="deleteBtn">Delete</button>
       </div>
@@ -1250,6 +1258,37 @@ function renderRevenue(){
   return html;
 }
 
+function shareRecordViaWhatsApp(r){
+  // WhatsApp's web link can't attach a locally-generated PDF file directly —
+  // that's a limitation of any website, not just this one. Instead this
+  // builds a clean text summary with tappable photo links, and opens
+  // WhatsApp so the groomer picks which client to send it to. Exporting the
+  // PDF first (separately) still works for anyone who wants a saved file to
+  // attach manually afterward.
+  const lines = [];
+  lines.push(`*Grooming Record — ${r['Dog Name'] || 'Unnamed'}*`);
+  lines.push(`${r['Date of Grooming'] || ''}${r['Time of Grooming'] ? ' at ' + r['Time of Grooming'] : ''}`);
+  lines.push('');
+  if(r['Service Required']) lines.push(`Service: ${r['Service Required']}`);
+  if(r['Shampoo Used']) lines.push(`Shampoo: ${r['Shampoo Used']}`);
+  if(r['Style Notes']) lines.push(`Style notes: ${r['Style Notes']}`);
+  if(r['Additional Notes']) lines.push(`Notes: ${r['Additional Notes']}`);
+  if(r['Charges (SGD)']) lines.push(`Charges: ${r['Charges (SGD)']}`);
+
+  const photos = (r['Photos'] || '').split(',').map(u => u.trim()).filter(Boolean);
+  if(photos.length > 0){
+    lines.push('');
+    lines.push('Photos from today\'s groom:');
+    photos.forEach((url, i) => lines.push(`${i + 1}. ${url}`));
+  }
+
+  lines.push('');
+  lines.push(`Thank you for trusting ${BUSINESS_NAME}!`);
+
+  const message = encodeURIComponent(lines.join('\n'));
+  window.open(`https://wa.me/?text=${message}`, '_blank');
+}
+
 function exportRecordAsPdf(r){
   function row(label, val){
     return '<div><span class="k">' + esc(label) + '</span>' + (val ? esc(val) : '—') + '</div>';
@@ -1404,7 +1443,15 @@ function formatMultiValue(val){
 
 function getDirectImageUrl(url) {
   if (!url) return url;
-  
+
+  // Only Google Drive links need converting to a direct-embeddable format.
+  // Anything else (a demo placeholder photo, an external image, etc.) has
+  // no Drive file ID to extract — return it untouched rather than pattern
+  // matching on query params like "?id=" that other sites use too.
+  if (!url.includes('drive.google.com')) {
+    return url;
+  }
+
   // Already a direct URL
   if (url.includes('uc?export=view') || url.includes('thumbnail?id=')) {
     return url;
@@ -1838,6 +1885,13 @@ function attachHandlers(){
   if(exportBtn) exportBtn.onclick = ()=>{
     const r = state.records.find(x=>x['Record ID']===state.detailId);
     if(r) exportRecordAsPdf(r);
+  };
+
+  // Share via WhatsApp button
+  const shareBtn = document.getElementById('shareWhatsAppBtn');
+  if(shareBtn) shareBtn.onclick = ()=>{
+    const r = state.records.find(x=>x['Record ID']===state.detailId);
+    if(r) shareRecordViaWhatsApp(r);
   };
 
   // Edit button
