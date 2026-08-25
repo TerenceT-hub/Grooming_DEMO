@@ -1074,7 +1074,8 @@ function renderRevenue(){
           service: service,
           type: 'topup',
           amount: topUpAmt,
-          balanceAfter: null
+          balanceAfter: null,
+          packageType: r['Package Type'] || ''
         });
       }
       ownerMap[owner].visitTrail.push({
@@ -1098,24 +1099,32 @@ function renderRevenue(){
         service: service,
         type: 'visit',
         amount: charge,
-        balanceAfter: null
+        balanceAfter: null,
+        packageType: ''
       });
     }
   });
 
-  // Sort each owner's trail chronologically, and take the CURRENT balance
-  // from the most recent entry — not just whichever record happened to be
-  // processed last, which previously gave a wrong (oldest-record) balance.
+  // Sort each owner's trail chronologically. Balance comes from the most
+  // recent USAGE entry specifically (only those carry a real balance).
+  // Package name comes from the most recent entry that names one at all —
+  // checked separately, since a fresh top-up with no usage yet should still
+  // correctly show its package name in the summary line.
   for (var ownerMapKey in ownerMap) {
     var trail = ownerMap[ownerMapKey].visitTrail;
     trail.sort(function(a, b){ return (String(a.date) + String(a.time)).localeCompare(String(b.date) + String(b.time)); });
     var lastWithBalance = null;
+    var lastWithPackageType = null;
     for (var ti = trail.length - 1; ti >= 0; ti--) {
-      if (trail[ti].balanceAfter !== null) { lastWithBalance = trail[ti]; break; }
+      if (lastWithBalance === null && trail[ti].balanceAfter !== null) { lastWithBalance = trail[ti]; }
+      if (lastWithPackageType === null && trail[ti].packageType) { lastWithPackageType = trail[ti]; }
+      if (lastWithBalance !== null && lastWithPackageType !== null) break;
     }
     if (lastWithBalance) {
       ownerMap[ownerMapKey].packageBalance = lastWithBalance.balanceAfter;
-      ownerMap[ownerMapKey].packageType = lastWithBalance.packageType || ownerMap[ownerMapKey].packageType;
+    }
+    if (lastWithPackageType) {
+      ownerMap[ownerMapKey].packageType = lastWithPackageType.packageType;
     }
   }
 
@@ -1268,6 +1277,7 @@ function renderRevenue(){
                   <th style="padding:6px 10px;font-weight:500;">Event</th>
                   <th style="padding:6px 10px;font-weight:500;">Pet</th>
                   <th style="padding:6px 10px;font-weight:500;">Service</th>
+                  <th style="padding:6px 10px;font-weight:500;">Package</th>
                   <th style="padding:6px 10px;font-weight:500;text-align:right;">Amount</th>
                   <th style="padding:6px 10px;font-weight:500;text-align:right;">Balance After</th>
                 </tr></thead>
@@ -1284,6 +1294,7 @@ function renderRevenue(){
                       <td style="padding:6px 10px;color:${eventColor};">${eventLabel}</td>
                       <td style="padding:6px 10px;">${t.petType === 'Cat' ? '🐈' : (t.petType === 'Dog' ? '🐕' : '')} ${esc(t.dogName || '—')}</td>
                       <td style="padding:6px 10px;color:var(--ink-soft);">${esc(formatMultiValue(t.service)) || '—'}</td>
+                      <td style="padding:6px 10px;color:var(--ink-soft);">${esc(t.packageType) || '—'}</td>
                       <td style="padding:6px 10px;text-align:right;color:${amountColor};">${amountSign}${t.amount.toFixed(2)}</td>
                       <td style="padding:6px 10px;text-align:right;font-weight:500;">${t.balanceAfter !== null ? t.balanceAfter.toFixed(2) : '—'}</td>
                     </tr>`;
@@ -2000,6 +2011,12 @@ const creditTopUpInput = document.getElementById('f_CreditTopUp');
 
 if (topUpBtn && creditTopUpInput) {
   topUpBtn.onclick = async function() {
+    // Capture whatever's currently typed in the form (Package Type, Base
+    // Price, etc.) before touching anything — otherwise the balance/top-up
+    // update below overwrites those fields with stale in-memory values the
+    // next time the form re-renders.
+    collectFormData();
+
     const ownerName = state.formData['Owner Name'];
     if (!ownerName) {
       showToast('Please enter an owner name first');
